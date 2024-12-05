@@ -19,21 +19,21 @@ mixin _$AppointmentState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(String data) loaded,
+    required TResult Function(List<Appointment> data) loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(String data)? loaded,
+    TResult? Function(List<Appointment> data)? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(String data)? loaded,
+    TResult Function(List<Appointment> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -125,7 +125,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(String data) loaded,
+    required TResult Function(List<Appointment> data) loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -135,7 +135,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(String data)? loaded,
+    TResult? Function(List<Appointment> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -145,7 +145,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(String data)? loaded,
+    TResult Function(List<Appointment> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -200,7 +200,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String data});
+  $Res call({List<Appointment> data});
 }
 
 /// @nodoc
@@ -220,9 +220,9 @@ class __$$LoadedImplCopyWithImpl<$Res>
   }) {
     return _then(_$LoadedImpl(
       null == data
-          ? _value.data
+          ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<Appointment>,
     ));
   }
 }
@@ -230,10 +230,15 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(this.data);
+  const _$LoadedImpl(final List<Appointment> data) : _data = data;
 
+  final List<Appointment> _data;
   @override
-  final String data;
+  List<Appointment> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
 
   @override
   String toString() {
@@ -245,11 +250,12 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
-            (identical(other.data, data) || other.data == data));
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, data);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
   /// Create a copy of AppointmentState
   /// with the given fields replaced by the non-null parameter values.
@@ -263,7 +269,7 @@ class _$LoadedImpl implements _Loaded {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(String data) loaded,
+    required TResult Function(List<Appointment> data) loaded,
     required TResult Function(String message) error,
   }) {
     return loaded(data);
@@ -273,7 +279,7 @@ class _$LoadedImpl implements _Loaded {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(String data)? loaded,
+    TResult? Function(List<Appointment> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loaded?.call(data);
@@ -283,7 +289,7 @@ class _$LoadedImpl implements _Loaded {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(String data)? loaded,
+    TResult Function(List<Appointment> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -329,9 +335,9 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements AppointmentState {
-  const factory _Loaded(final String data) = _$LoadedImpl;
+  const factory _Loaded(final List<Appointment> data) = _$LoadedImpl;
 
-  String get data;
+  List<Appointment> get data;
 
   /// Create a copy of AppointmentState
   /// with the given fields replaced by the non-null parameter values.
@@ -409,7 +415,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(String data) loaded,
+    required TResult Function(List<Appointment> data) loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -419,7 +425,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(String data)? loaded,
+    TResult? Function(List<Appointment> data)? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -429,7 +435,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(String data)? loaded,
+    TResult Function(List<Appointment> data)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

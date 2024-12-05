@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
@@ -16,7 +13,6 @@ import 'package:govision/shared/http/app_exception.dart';
 import 'package:govision/shared/http/interceptor/dio_connectivity_request_retrier.dart';
 import 'package:govision/shared/http/interceptor/retry_interceptor.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 //part 'api_provider.g.dart';
@@ -165,7 +161,7 @@ class ApiProvider {
       };
       final _appToken = await _tokenRepository.fetchToken();
       if (_appToken != null) {
-        headers['Authorization'] = 'Bearer ${_appToken}';
+        headers['Authorization'] = 'Bearer ${_appToken.token}';
       }
       //Sometime for some specific endpoint it may require to use different Token
       if (token != null) {
@@ -260,7 +256,7 @@ class ApiProvider {
 
     final _appToken = await _tokenRepository.fetchToken();
     if (_appToken != null) {
-      headers['Authorization'] = 'Bearer ${_appToken}';
+      headers['Authorization'] = 'Bearer ${_appToken.token}';
     }
 
     try {

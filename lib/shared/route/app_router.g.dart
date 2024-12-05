@@ -17,12 +17,10 @@ List<RouteBase> get $appRoutes => [
       $appointmentRoute,
       $chatRoute,
       $chatRoomRoute,
-      $doctorProfileRoute,
       $educationRoute,
       $fundusCaptureRoute,
       $fundusDetailRoute,
       $fundusHelpRoute,
-      $healthFacilityRoute,
       $homeRoute,
       $homeDoctorRoute,
       $medicalRecordRoute,
@@ -30,6 +28,7 @@ List<RouteBase> get $appRoutes => [
       $notificationRoute,
       $patientRoute,
       $profileRoute,
+      $createPatientProfileRoute,
       $signInRoute,
       $signUpRoute,
     ];
@@ -261,29 +260,6 @@ extension $ChatRoomRouteExtension on ChatRoomRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $doctorProfileRoute => GoRouteData.$route(
-      path: '/doctorProfile',
-      factory: $DoctorProfileRouteExtension._fromState,
-    );
-
-extension $DoctorProfileRouteExtension on DoctorProfileRoute {
-  static DoctorProfileRoute _fromState(GoRouterState state) =>
-      const DoctorProfileRoute();
-
-  String get location => GoRouteData.$location(
-        '/doctorProfile',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
 RouteBase get $educationRoute => GoRouteData.$route(
       path: '/education',
       factory: $EducationRouteExtension._fromState,
@@ -364,29 +340,6 @@ extension $FundusHelpRouteExtension on FundusHelpRoute {
 
   String get location => GoRouteData.$location(
         '/fundusHelp',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-RouteBase get $healthFacilityRoute => GoRouteData.$route(
-      path: '/healthFacility',
-      factory: $HealthFacilityRouteExtension._fromState,
-    );
-
-extension $HealthFacilityRouteExtension on HealthFacilityRoute {
-  static HealthFacilityRoute _fromState(GoRouterState state) =>
-      const HealthFacilityRoute();
-
-  String get location => GoRouteData.$location(
-        '/healthFacility',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -545,6 +498,29 @@ extension $ProfileRouteExtension on ProfileRoute {
 
   String get location => GoRouteData.$location(
         '/profile',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $createPatientProfileRoute => GoRouteData.$route(
+      path: '/profile/patient/create',
+      factory: $CreatePatientProfileRouteExtension._fromState,
+    );
+
+extension $CreatePatientProfileRouteExtension on CreatePatientProfileRoute {
+  static CreatePatientProfileRoute _fromState(GoRouterState state) =>
+      const CreatePatientProfileRoute();
+
+  String get location => GoRouteData.$location(
+        '/profile/patient/create',
       );
 
   void go(BuildContext context) => context.go(location);

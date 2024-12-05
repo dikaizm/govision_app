@@ -9,8 +9,7 @@ import 'package:govision/feature/amsler_grid/widget/amsler_failed_page.dart';
 import 'package:govision/feature/amsler_grid/widget/amsler_help_page.dart';
 import 'package:govision/feature/amsler_grid/widget/amsler_success_page.dart';
 import 'package:govision/feature/amsler_grid/widget/amsler_test_page.dart';
-import 'package:govision/feature/appointment/widget/appointment_page.dart';
-import 'package:govision/feature/appointment/widget/health_facility_page.dart';
+import 'package:govision/feature/appointment/widget/doctor_list_page.dart';
 import 'package:govision/feature/auth/widget/register_page.dart';
 import 'package:govision/feature/auth/widget/sign_in_page.dart';
 import 'package:govision/feature/chat/widget/chat_page.dart';
@@ -27,6 +26,7 @@ import 'package:govision/feature/medical_record/widget/medical_record_detail_pag
 import 'package:govision/feature/medical_record/widget/medical_record_page.dart';
 import 'package:govision/feature/notification/widget/notification_page.dart';
 import 'package:govision/feature/patient/widget/patient_page.dart';
+import 'package:govision/feature/profile/widget/create_patient_profile_page.dart';
 import 'package:govision/feature/profile/widget/profile_page.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -167,17 +167,6 @@ class ChatRoomRoute extends GoRouteData {
   }
 }
 
-@TypedGoRoute<DoctorProfileRoute>(path: DoctorProfileRoute.path)
-class DoctorProfileRoute extends GoRouteData {
-  const DoctorProfileRoute();
-  static const path = '/doctorProfile';
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const DoctorProfilePage();
-  }
-}
-
 @TypedGoRoute<EducationRoute>(path: EducationRoute.path)
 class EducationRoute extends GoRouteData {
   const EducationRoute();
@@ -219,17 +208,6 @@ class FundusHelpRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const FundusHelpPage();
-  }
-}
-
-@TypedGoRoute<HealthFacilityRoute>(path: HealthFacilityRoute.path)
-class HealthFacilityRoute extends GoRouteData {
-  const HealthFacilityRoute();
-  static const path = '/healthFacility';
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const HealthFacilityPage();
   }
 }
 
@@ -309,6 +287,17 @@ class ProfileRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const ProfilePage();
+  }
+}
+
+@TypedGoRoute<CreatePatientProfileRoute>(path: CreatePatientProfileRoute.path)
+class CreatePatientProfileRoute extends GoRouteData {
+  const CreatePatientProfileRoute();
+  static const path = '/profile/patient/create';
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const CreatePatientProfilePage();
   }
 }
 

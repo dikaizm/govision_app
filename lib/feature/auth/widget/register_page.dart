@@ -5,12 +5,8 @@ import 'package:govision/feature/auth/model/register.dart';
 import 'package:govision/feature/auth/model/token.dart';
 import 'package:govision/feature/auth/repository/token_repository.dart';
 import 'package:govision/feature/auth/state/auth_state.dart';
-import 'package:govision/feature/auth/widget/box_logo.dart';
-import 'package:govision/feature/auth/widget/logo.dart';
 import 'package:govision/feature/auth/widget/sign_in_page.dart';
-import 'package:govision/feature/auth/widget/sponsor.dart';
 import 'package:govision/feature/auth/widget/text_input.dart';
-import 'package:govision/feature/home/widget/home_page.dart';
 import 'package:govision/shared/constants/app_theme.dart';
 import 'package:govision/shared/constants/role.dart';
 import 'package:govision/shared/http/api_provider.dart';
@@ -44,7 +40,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> genderOptions = ['laki-laki', 'perempuan'];
+    List<String> genderOptions = ['Laki-laki', 'Perempuan'];
 
     return Scaffold(
       backgroundColor: AppColors.green,
@@ -55,14 +51,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               children: [
                 const SizedBox(height: 25),
 
-                const SizedBox(height: 15),
+                const SizedBox(height: 16),
 
                 // logo
                 const Text(
                   'GoVision',
                   style: TextStyle(
                     fontSize: 30,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
                 ),
@@ -80,21 +76,22 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     ),
                   ),
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
+                    horizontal: 16,
                     vertical: 20,
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // text
                       const Text(
                         'Daftarkan diri Anda',
                         style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                             color: Colors.black),
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       // form
                       TextInput(
@@ -104,7 +101,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         obscureText: false,
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       // form
                       TextInput(
@@ -114,7 +111,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         obscureText: false,
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       TextInput(
                         controller: passwordController,
@@ -123,7 +120,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         obscureText: true,
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       TextInput(
                         controller: confirmPasswordController,
@@ -132,34 +129,31 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         obscureText: true,
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       const Divider(
                         thickness: 0.5,
                         color: Colors.black,
                       ),
 
-                      const Center(
-                        // Center the text
-                        child: Text(
-                          'Isi Data Diri Anda',
-                          style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        ),
+                      Text(
+                        'Isi Data Diri Anda',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       TextInput(
                         controller: phoneController,
                         labelText: 'Nomor telepon',
                         hintText: 'Masukan nomor telepon',
-                        obscureText: true,
+                        obscureText: false,
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       // form
                       DatePicker(
@@ -169,20 +163,24 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         obscureText: false,
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       // form
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text('Jenis Kelamin',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                            )),
-                      ),
-                      RadioGender(genderOptions: genderOptions),
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Jenis Kelamin',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                )),
+                            RadioGender(
+                                genderOptions: genderOptions,
+                                controller: genderController),
+                          ]),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       TextInput(
                         controller: cityController,
@@ -191,7 +189,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         obscureText: false,
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       TextInput(
                         controller: provinceController,
@@ -200,7 +198,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         obscureText: false,
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       TextInput(
                         controller: addressController,
@@ -209,24 +207,24 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         obscureText: false,
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       const Divider(
                         thickness: 0.5,
                         color: Colors.black,
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       const Text(
                         'Pilih Peran Anda',
                         style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                             color: Colors.black),
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -242,8 +240,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 10),
                                 padding: const EdgeInsets.all(15),
                                 decoration: BoxDecoration(
                                   color: _isRole1Selected
@@ -279,6 +275,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             ),
                           ),
 
+                          const SizedBox(width: 16),
+
                           // Role Patient Button
                           Expanded(
                             child: GestureDetector(
@@ -290,8 +288,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 10),
                                 padding: const EdgeInsets.all(15),
                                 decoration: BoxDecoration(
                                   color: _isRole2Selected
@@ -332,110 +328,101 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       const SizedBox(height: 32),
 
                       // button
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: SizedBox(
-                          height: 48,
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0, // Disable elevation
-                              backgroundColor: AppColors.green,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
+                      Container(
+                        width: double.infinity,
+                        height: 48,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0, // Disable elevation
+                            backgroundColor: AppColors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
                             ),
-                            onPressed: () async {
-                              final String email = emailController.text;
-                              if (!Validator.isValidEmail(email)) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Email tidak valid'),
-                                  ),
-                                );
-                                return;
-                              }
+                          ),
+                          onPressed: () async {
+                            final String email = emailController.text;
+                            if (!Validator.isValidEmail(email)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Email tidak valid'),
+                                ),
+                              );
+                              return;
+                            }
 
+                            try {
                               final Register registerData = Register(
                                 name: nameController.text,
-                                email: emailController.text,
+                                email: email,
                                 password: passwordController.text,
                                 confirmPassword: confirmPasswordController.text,
                                 phone: phoneController.text,
                                 birthDate: birthDateController.text,
-                                gender: genderController.text,
+                                gender: genderController.text == 'Laki-laki'
+                                    ? 'male'
+                                    : 'female',
                                 city: cityController.text,
                                 province: provinceController.text,
-                                address: addressController.text,
+                                addressDetail: addressController.text,
                                 role: _isRole1Selected ? 'doctor' : 'patient',
                                 roleId: _isRole1Selected ? 1 : 2,
                               );
 
-                              final params = registerData.toJson();
+                              final registerResponse = await ref
+                                  .read(apiProvider)
+                                  .post(
+                                      '/auth/register', registerData.toJson());
 
-                              try {
-                                final registerResponse = await ref
-                                    .read(apiProvider)
-                                    .post('/auth/register', params);
+                              registerResponse.when(success: (success) async {
+                                final String accessToken =
+                                    success["access_token"] as String;
 
-                                registerResponse.when(success: (success) async {
-                                  final String accessToken =
-                                      success["access_token"] as String;
+                                final tokenRepository =
+                                    ref.read(tokenRepositoryProvider);
+                                final token = Token(token: accessToken);
 
-                                  final tokenRepository =
-                                      ref.read(tokenRepositoryProvider);
-                                  final token = Token(token: accessToken);
+                                await tokenRepository.saveToken(token);
 
-                                  await tokenRepository.saveToken(token);
+                                final userRole =
+                                    stringToRole(success["role"] as String);
 
-                                  final userRole =
-                                      stringToRole(success["role"] as String);
+                                AuthState.loggedIn(role: userRole);
 
-                                  AuthState.loggedIn(role: userRole);
-
-                                  showTopSnackBar(
-                                      context,
-                                      "Selamat datang ${success["name"]}",
-                                      AppColors.green);
-
-                                  if (userRole == Role.patient) {
-                                    ref
-                                        .read(routerProvider)
-                                        .go(MainPatientRoute.path);
-                                  } else if (userRole == Role.doctor) {
-                                    ref
-                                        .read(routerProvider)
-                                        .go(MainDoctorRoute.path);
-                                  }
-                                }, error: (error) {
-                                  return showTopSnackBar(context,
-                                      error.toString(), Colors.red[700]);
-                                });
-                              } catch (e) {
-                                // Handle general exceptions
                                 showTopSnackBar(
-                                    context, e.toString(), Colors.red[700]);
-                              }
+                                    context,
+                                    "Selamat datang ${success["name"]}",
+                                    AppColors.green);
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomePage(),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              'Lanjut',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
+                                if (userRole == Role.patient) {
+                                  ref
+                                      .read(routerProvider)
+                                      .go(CreatePatientProfileRoute.path);
+                                } else if (userRole == Role.doctor) {
+                                  ref
+                                      .read(routerProvider)
+                                      .go(MainDoctorRoute.path);
+                                }
+                              }, error: (error) {
+                                return showTopSnackBar(
+                                    context, error.toString(), Colors.red[700]);
+                              });
+                            } catch (e) {
+                              // Handle general exceptions
+                              showTopSnackBar(
+                                  context, e.toString(), Colors.red[700]);
+                            }
+                          },
+                          child: const Text(
+                            'Lanjut',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
                             ),
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
 
                       // register
                       Row(
@@ -456,7 +443,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               'Masuk',
                               style: TextStyle(
                                 color: AppColors.green,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -476,10 +463,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
 class RadioGender extends StatefulWidget {
   final List<String> genderOptions; // List of gender options
+  final TextEditingController controller;
 
   const RadioGender({
     super.key,
     required this.genderOptions,
+    required this.controller,
   });
 
   @override
@@ -488,6 +477,13 @@ class RadioGender extends StatefulWidget {
 
 class _RadioGenderState extends State<RadioGender> {
   String? _selectedGender;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedGender =
+        widget.controller.text.isNotEmpty ? widget.controller.text : null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -503,6 +499,7 @@ class _RadioGenderState extends State<RadioGender> {
                 onChanged: (value) {
                   setState(() {
                     _selectedGender = value;
+                    widget.controller.text = value ?? '';
                   });
                 },
                 activeColor: Colors.blue,
@@ -546,25 +543,25 @@ class DatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: TextFormField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade400, width: 2)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade600, width: 2)),
-          labelText: labeltext,
-          labelStyle: TextStyle(color: Colors.grey.shade600),
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey.shade600),
-          suffixIcon: const Icon(Icons.calendar_today),
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: Colors.grey.shade400, width: 2),
         ),
-        readOnly: true,
-        onTap: () => selectDate(context),
-      ),
-    );
+        child: TextFormField(
+          controller: controller,
+          obscureText: obscureText,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            labelText: labeltext,
+            labelStyle: TextStyle(color: Colors.grey.shade600),
+            hintText: hintText,
+            hintStyle: TextStyle(color: Colors.grey.shade600),
+            suffixIcon: const Icon(Icons.calendar_today),
+          ),
+          readOnly: true,
+          onTap: () => selectDate(context),
+        ));
   }
 }

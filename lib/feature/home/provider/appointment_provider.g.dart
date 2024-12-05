@@ -7,12 +7,12 @@ part of 'appointment_provider.dart';
 // **************************************************************************
 
 String _$appointmentNotifierHash() =>
-    r'cf03a1e3967a4662e674b4f45f52cc82d2cc4fc7';
+    r'e8293b64b6ff0869d19799cc529b176bcdb62ee2';
 
 /// See also [AppointmentNotifier].
 @ProviderFor(AppointmentNotifier)
-final appointmentNotifierProvider =
-    AutoDisposeNotifierProvider<AppointmentNotifier, AppointmentState>.internal(
+final appointmentNotifierProvider = AutoDisposeNotifierProvider<
+    AppointmentNotifier, AppointmentsState>.internal(
   AppointmentNotifier.new,
   name: r'appointmentNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final appointmentNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$AppointmentNotifier = AutoDisposeNotifier<AppointmentState>;
+typedef _$AppointmentNotifier = AutoDisposeNotifier<AppointmentsState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

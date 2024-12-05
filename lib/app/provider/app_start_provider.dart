@@ -61,9 +61,9 @@ class AppStartNotifier extends _$AppStartNotifier {
       ],
       bottomNavs: [
         _bottomNavItem('Beranda', Icons.home_filled),
-        _bottomNavItem('Funduskopi', Icons.receipt_rounded),
+        _bottomNavItem('Funduskopi', Icons.remove_red_eye_rounded),
         _bottomNavItem('Edukasi', Icons.book),
-        _bottomNavItem('Pesan', Icons.chat),
+        _bottomNavItem('Dokter Saya', Icons.person),
       ],
     );
   }
@@ -90,7 +90,7 @@ class AppStartNotifier extends _$AppStartNotifier {
       activeIcon: Icon(
         icon,
         size: 24,
-        color: AppColors.lime,
+        color: AppColors.green,
       ),
       icon: Icon(
         icon,

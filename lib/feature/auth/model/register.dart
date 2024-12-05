@@ -24,7 +24,7 @@ class Register with _$Register {
     @JsonKey(name: 'role_id') int? roleId,
     @JsonKey(name: 'city') String? city,
     @JsonKey(name: 'province') String? province,
-    @JsonKey(name: 'address_detail') String? address,
+    @JsonKey(name: 'address_detail') String? addressDetail,
   }) = _Register;
 
   factory Register.fromJson(Map<String, dynamic> json) =>

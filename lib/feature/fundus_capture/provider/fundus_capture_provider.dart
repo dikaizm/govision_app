@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:govision/feature/fundus_capture/state/fundus_capture_state.dart';
 import 'package:govision/feature/fundus_capture/widget/fundus_image_page.dart';
-import 'package:govision/shared/util/db_loader.dart';
 import 'package:govision/shared/util/snackbar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

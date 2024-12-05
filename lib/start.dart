@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl_standalone.dart';
 import 'package:govision/app/app.dart';
 import 'package:govision/shared/util/camera.dart';
@@ -19,6 +20,8 @@ Future<void> start() async {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
+  await initializeDateFormatting();
+
   final dbLoader = DatabaseLoader();
   await dbLoader.database;
 
@@ -31,7 +34,7 @@ Future<void> start() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en')],
+      supportedLocales: const [Locale('id'), Locale('en')],
       path: 'assets/lang',
       fallbackLocale: const Locale('en'),
       child: ProviderScope(

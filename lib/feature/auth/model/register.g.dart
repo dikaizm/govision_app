@@ -19,7 +19,7 @@ _$RegisterImpl _$$RegisterImplFromJson(Map<String, dynamic> json) =>
       roleId: (json['role_id'] as num?)?.toInt(),
       city: json['city'] as String?,
       province: json['province'] as String?,
-      address: json['address_detail'] as String?,
+      addressDetail: json['address_detail'] as String?,
     );
 
 Map<String, dynamic> _$$RegisterImplToJson(_$RegisterImpl instance) =>
@@ -35,5 +35,5 @@ Map<String, dynamic> _$$RegisterImplToJson(_$RegisterImpl instance) =>
       'role_id': instance.roleId,
       'city': instance.city,
       'province': instance.province,
-      'address_detail': instance.address,
+      'address_detail': instance.addressDetail,
     };

@@ -1,10 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:govision/feature/home/provider/home_provider.dart';
+import 'package:govision/feature/appointment/model/doctor_preview.dart';
+import 'package:govision/feature/appointment/provider/doctors_provider.dart';
+import 'package:govision/feature/appointment/widget/doctor_card.dart';
 import 'package:govision/shared/constants/app_theme.dart';
-import 'package:govision/shared/route/app_router.dart';
 
 class AppointmentPage extends ConsumerWidget {
   const AppointmentPage({super.key});
@@ -74,33 +74,38 @@ class AppointmentPage extends ConsumerWidget {
               onPressed: () {},
             ),
           ])),
-      body: _widgetContent(context, ref),
+      body: Column(
+        children: [
+          _bodyHero(context, ref),
+          const SizedBox(height: 8),
+          _widgetContent(context, ref)
+        ],
+      ),
     );
   }
 
   Widget _widgetLoading(BuildContext context, WidgetRef ref) {
-    return Center(
-      child: Text('loading'.tr()),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height - 200,
+      child: const Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(AppColors.green),
+        ),
+      ),
     );
   }
 
   Widget _widgetContent(BuildContext context, WidgetRef ref) {
-    final homeState = ref.watch(homeNotifierProvider);
+    final doctorListState = ref.watch(doctorsNotifierProvider);
 
-    return homeState.when(
+    return doctorListState.when(
       loading: () => _widgetLoading(context, ref),
       loaded: (data) => SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            _bodyHero(context, ref),
-            const SizedBox(height: 8),
-            _bodyDoctorList(context, ref),
-          ],
-        ),
+        child: _bodyDoctorList(context, ref, data),
       ),
-      error: (message) => Center(
-        child: Text(message),
+      error: (e) => Center(
+        child: Text(e.toString()),
       ),
     );
   }
@@ -133,94 +138,24 @@ class AppointmentPage extends ConsumerWidget {
     );
   }
 
-  Widget _bodyDoctorList(BuildContext context, WidgetRef ref) {
-    Widget iconBadge(IconData icon, Color? iconColor, String text) {
-      var iColor = AppColors.lime;
-
-      if (iconColor != null) {
-        iColor = iconColor;
-      }
-
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black12),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, size: 16, color: iColor),
-            const SizedBox(width: 6),
-            Text(
-              text,
-              style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black54),
+  Widget _bodyDoctorList(
+      BuildContext context, WidgetRef ref, List<DoctorPreview> data) {
+    final cardDoctors = data
+        .map(
+          (e) => DoctorCard(
+            data: DoctorPreview(
+              userId: e.userId,
+              name: e.name,
+              photo: e.photo,
+              specialization: e.specialization,
+              rating: e.rating,
+              workYears: e.workYears,
+              city: e.city,
+              province: e.province,
             ),
-          ],
-        ),
-      );
-    }
-
-    Widget cardDoctor(
-        String name, String imagePath, int workYears, double rating) {
-      return InkWell(
-        onTap: () {
-          context.push(DoctorProfileRoute.path);
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-          child: Row(
-            children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(16),
-                  image: DecorationImage(
-                    image: AssetImage(imagePath),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    name,
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                  ),
-                  const Text('Dokter Spesialis Mata'),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      iconBadge(Icons.work_history, null, '$workYears tahun'),
-                      const SizedBox(width: 8),
-                      iconBadge(Icons.star, Colors.orange, rating.toString()),
-                    ],
-                  ),
-                ],
-              )
-            ],
           ),
-        ),
-      );
-    }
-
-    final cardDoctors = <Widget>[
-      cardDoctor(
-          'dr. Grimaldi Ihsan, Sp.M.', 'assets/avatar_dokter_2.png', 8, 4.9),
-      cardDoctor(
-          'dr. Sonie Umbara, Sp.M.', 'assets/avatar_dokter_3.png', 4, 4.5),
-    ];
+        )
+        .toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

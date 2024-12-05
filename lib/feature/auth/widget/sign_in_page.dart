@@ -13,6 +13,7 @@ import 'package:govision/feature/auth/widget/logo.dart';
 import 'package:govision/feature/auth/widget/register_page.dart';
 import 'package:govision/feature/auth/widget/sponsor.dart';
 import 'package:govision/feature/auth/widget/text_input.dart';
+import 'package:govision/feature/profile/widget/create_patient_profile_page.dart';
 import 'package:govision/shared/constants/app_theme.dart';
 import 'package:govision/shared/constants/role.dart';
 import 'package:govision/shared/http/api_provider.dart';
@@ -206,12 +207,8 @@ class SignInPage extends ConsumerWidget {
                             const SizedBox(width: 5),
                             GestureDetector(
                               onTap: () {
-                                log('Daftar');
-                                // ref
-                                //     .read(routerProvider)
-                                //     .go(MainDoctorRoute.path);
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => RegisterPage()));
+                                    builder: (context) => CreatePatientProfilePage()));
                               },
                               child: const Text(
                                 'Daftar',

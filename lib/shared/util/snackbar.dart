@@ -12,25 +12,33 @@ void showTopSnackBar(BuildContext context, String message, Color? bgColor) {
   final overlay = Overlay.of(context);
   final overlayEntry = OverlayEntry(
     builder: (context) => Positioned(
-      top: MediaQuery.of(context).padding.top + 80, // Adjust as needed
+      top: MediaQuery.of(context).padding.top + 72, // Adjust as needed
       left: 10,
       right: 10,
       child: Material(
         color: Colors.transparent,
         child: Container(
-          padding: EdgeInsets.all(8),
-          margin: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.all(8),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              ),
+            ],
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.info, color: Colors.white),
-              SizedBox(width: 10),
+              const Icon(Icons.info, color: Colors.white),
+              const SizedBox(width: 10),
               Expanded(
-                  child: Text(message, style: TextStyle(color: Colors.white))),
+                child: Text(message, style: const TextStyle(color: Colors.white)),
+              ),
             ],
           ),
         ),
@@ -39,5 +47,5 @@ void showTopSnackBar(BuildContext context, String message, Color? bgColor) {
   );
 
   overlay.insert(overlayEntry);
-  Future.delayed(Duration(seconds: 3)).then((_) => overlayEntry.remove());
+  Future.delayed(const Duration(seconds: 3)).then((_) => overlayEntry.remove());
 }

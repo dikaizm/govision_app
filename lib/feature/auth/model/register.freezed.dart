@@ -43,7 +43,7 @@ mixin _$Register {
   @JsonKey(name: 'province')
   String? get province => throw _privateConstructorUsedError;
   @JsonKey(name: 'address_detail')
-  String? get address => throw _privateConstructorUsedError;
+  String? get addressDetail => throw _privateConstructorUsedError;
 
   /// Serializes this Register to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -72,7 +72,7 @@ abstract class $RegisterCopyWith<$Res> {
       @JsonKey(name: 'role_id') int? roleId,
       @JsonKey(name: 'city') String? city,
       @JsonKey(name: 'province') String? province,
-      @JsonKey(name: 'address_detail') String? address});
+      @JsonKey(name: 'address_detail') String? addressDetail});
 }
 
 /// @nodoc
@@ -101,7 +101,7 @@ class _$RegisterCopyWithImpl<$Res, $Val extends Register>
     Object? roleId = freezed,
     Object? city = freezed,
     Object? province = freezed,
-    Object? address = freezed,
+    Object? addressDetail = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
@@ -148,9 +148,9 @@ class _$RegisterCopyWithImpl<$Res, $Val extends Register>
           ? _value.province
           : province // ignore: cast_nullable_to_non_nullable
               as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
+      addressDetail: freezed == addressDetail
+          ? _value.addressDetail
+          : addressDetail // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -176,7 +176,7 @@ abstract class _$$RegisterImplCopyWith<$Res>
       @JsonKey(name: 'role_id') int? roleId,
       @JsonKey(name: 'city') String? city,
       @JsonKey(name: 'province') String? province,
-      @JsonKey(name: 'address_detail') String? address});
+      @JsonKey(name: 'address_detail') String? addressDetail});
 }
 
 /// @nodoc
@@ -203,7 +203,7 @@ class __$$RegisterImplCopyWithImpl<$Res>
     Object? roleId = freezed,
     Object? city = freezed,
     Object? province = freezed,
-    Object? address = freezed,
+    Object? addressDetail = freezed,
   }) {
     return _then(_$RegisterImpl(
       name: freezed == name
@@ -250,9 +250,9 @@ class __$$RegisterImplCopyWithImpl<$Res>
           ? _value.province
           : province // ignore: cast_nullable_to_non_nullable
               as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
+      addressDetail: freezed == addressDetail
+          ? _value.addressDetail
+          : addressDetail // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -273,7 +273,7 @@ class _$RegisterImpl implements _Register {
       @JsonKey(name: 'role_id') this.roleId,
       @JsonKey(name: 'city') this.city,
       @JsonKey(name: 'province') this.province,
-      @JsonKey(name: 'address_detail') this.address});
+      @JsonKey(name: 'address_detail') this.addressDetail});
 
   factory _$RegisterImpl.fromJson(Map<String, dynamic> json) =>
       _$$RegisterImplFromJson(json);
@@ -313,11 +313,11 @@ class _$RegisterImpl implements _Register {
   final String? province;
   @override
   @JsonKey(name: 'address_detail')
-  final String? address;
+  final String? addressDetail;
 
   @override
   String toString() {
-    return 'Register(name: $name, email: $email, password: $password, confirmPassword: $confirmPassword, phone: $phone, birthDate: $birthDate, gender: $gender, role: $role, roleId: $roleId, city: $city, province: $province, address: $address)';
+    return 'Register(name: $name, email: $email, password: $password, confirmPassword: $confirmPassword, phone: $phone, birthDate: $birthDate, gender: $gender, role: $role, roleId: $roleId, city: $city, province: $province, addressDetail: $addressDetail)';
   }
 
   @override
@@ -340,7 +340,8 @@ class _$RegisterImpl implements _Register {
             (identical(other.city, city) || other.city == city) &&
             (identical(other.province, province) ||
                 other.province == province) &&
-            (identical(other.address, address) || other.address == address));
+            (identical(other.addressDetail, addressDetail) ||
+                other.addressDetail == addressDetail));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -358,7 +359,7 @@ class _$RegisterImpl implements _Register {
       roleId,
       city,
       province,
-      address);
+      addressDetail);
 
   /// Create a copy of Register
   /// with the given fields replaced by the non-null parameter values.
@@ -378,18 +379,19 @@ class _$RegisterImpl implements _Register {
 
 abstract class _Register implements Register {
   const factory _Register(
-      {@JsonKey(name: 'name') final String? name,
-      @JsonKey(name: 'email') final String? email,
-      @JsonKey(name: 'password') final String? password,
-      @JsonKey(name: 'confirm_password') final String? confirmPassword,
-      @JsonKey(name: 'phone') final String? phone,
-      @JsonKey(name: 'birth_date') final String? birthDate,
-      @JsonKey(name: 'gender') final String? gender,
-      @JsonKey(name: 'role') final String? role,
-      @JsonKey(name: 'role_id') final int? roleId,
-      @JsonKey(name: 'city') final String? city,
-      @JsonKey(name: 'province') final String? province,
-      @JsonKey(name: 'address_detail') final String? address}) = _$RegisterImpl;
+          {@JsonKey(name: 'name') final String? name,
+          @JsonKey(name: 'email') final String? email,
+          @JsonKey(name: 'password') final String? password,
+          @JsonKey(name: 'confirm_password') final String? confirmPassword,
+          @JsonKey(name: 'phone') final String? phone,
+          @JsonKey(name: 'birth_date') final String? birthDate,
+          @JsonKey(name: 'gender') final String? gender,
+          @JsonKey(name: 'role') final String? role,
+          @JsonKey(name: 'role_id') final int? roleId,
+          @JsonKey(name: 'city') final String? city,
+          @JsonKey(name: 'province') final String? province,
+          @JsonKey(name: 'address_detail') final String? addressDetail}) =
+      _$RegisterImpl;
 
   factory _Register.fromJson(Map<String, dynamic> json) =
       _$RegisterImpl.fromJson;
@@ -429,7 +431,7 @@ abstract class _Register implements Register {
   String? get province;
   @override
   @JsonKey(name: 'address_detail')
-  String? get address;
+  String? get addressDetail;
 
   /// Create a copy of Register
   /// with the given fields replaced by the non-null parameter values.

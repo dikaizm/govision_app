@@ -1,4 +1,4 @@
-package com.example.verygoodcore.govision
+package com.stelarhub.govision
 
 import io.flutter.embedding.android.FlutterActivity
 

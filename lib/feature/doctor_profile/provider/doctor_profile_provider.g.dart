@@ -7,7 +7,7 @@ part of 'doctor_profile_provider.dart';
 // **************************************************************************
 
 String _$doctorProfileNotifierHash() =>
-    r'ff3c806273dd71b429621a044dcd3621ea219eb3';
+    r'abd828741dc117e462a922e855c20f87905e5b21';
 
 /// See also [DoctorProfileNotifier].
 @ProviderFor(DoctorProfileNotifier)

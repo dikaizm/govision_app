@@ -35,17 +35,23 @@ class CardFeature extends StatelessWidget {
           height: height,
           decoration: BoxDecoration(
             color: backgroundColor,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(24),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SvgPicture.asset(
-                iconPath,
-                height: 50,
-                width: 50,
+              Container(
+                padding: EdgeInsets.all(8),
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                child: SvgPicture.asset(
+                  iconPath,
+                  height: 32,
+                  width: 32,
+                  color: backgroundColor,
+                ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
               Text(
                 title,
                 style: const TextStyle(
@@ -60,7 +66,7 @@ class CardFeature extends StatelessWidget {
                   subTitle!,
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.white.withOpacity(0.8),
+                    color: Colors.white,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,

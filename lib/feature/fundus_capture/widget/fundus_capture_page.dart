@@ -295,7 +295,7 @@ class FundusCapturePageState extends ConsumerState<FundusCapturePage> {
                                           height: 64,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: AppColors.lime,
+                                            color: AppColors.green,
                                             border: Border.all(
                                               color: Colors.blue[100]!,
                                               width: 6,
