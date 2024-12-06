@@ -28,48 +28,48 @@ class _FundusHelpPageState extends State<FundusHelpPage> {
   final List<Widget> tutorialList = [
     TutorialPage(
       color: AppColors.green,
-      title: 'Cara menggunakan Adaptor govision',
+      title: 'Cara menggunakan Adaptor GoVision',
       desc:
-          'Adaptor govision terdiri dari 3 bagian utama, yaitu gagang, holder smartphone, dan lensa. Ikuti langkah-langkah berikut untuk merakit adaptor dan menggunakannya untuk mengambil gambar fundus.',
+          'Adaptor GoVision terdiri dari 3 bagian utama, yaitu gagang, holder smartphone, dan lensa. Ikuti langkah-langkah berikut untuk merakit adaptor dan menggunakannya untuk mengambil gambar fundus.',
       imagePath: 'assets/images/tutorial_01.jpg',
     ),
     TutorialPage(
-      color: AppColors.lime,
+      color: AppColors.green,
       title: 'Masukkan slider pada gagang utama',
       desc:
           'Bagian slider dengan sisi tinggi dimasukkan ke dalam gagang utama. Pastikan slider terpasang dengan baik.',
       imagePath: 'assets/images/tutorial_02.jpg',
     ),
     TutorialPage(
-      color: AppColors.lime,
+      color: AppColors.green,
       title: 'Memasang holder lensa',
       desc:
           'Masukkan lensa pada salah satu sisi holder lensa hingga terdengar bunyi klik.',
       imagePath: 'assets/images/tutorial_03.jpg',
     ),
     TutorialPage(
-      color: AppColors.lime,
+      color: AppColors.green,
       title: 'Memasang holder lensa penutup',
       desc:
           'Pasang holder lensa penutup pada sisi holder lensa yang lain hingga terdengar bunyi klik.',
       imagePath: 'assets/images/tutorial_04.jpg',
     ),
     TutorialPage(
-      color: AppColors.lime,
+      color: AppColors.green,
       title: 'Memasang holder lensa pada slider lensa',
       desc:
           'Masukkan holder lensa dari ujung slider lensa. Pastikan sisi cembung lensa menghadap ke arah kamera smartphone.',
       imagePath: 'assets/images/tutorial_05.jpg',
     ),
     TutorialPage(
-      color: AppColors.lime,
+      color: AppColors.green,
       title: 'Menyambungkan gagang utama dengan slider lensa',
       desc:
           'Masukkan gagang utama ke dalam lubang slider lensa. Pasang baut untuk mengeratkan sambungan, pastikan baut terpasang dengan baik.',
       imagePath: 'assets/images/tutorial_06.jpg',
     ),
     TutorialPage(
-      color: AppColors.lime,
+      color: AppColors.green,
       title: 'Memasang holder smartphone pada slider',
       desc:
           'Pasang holder smartphone dari arah kiri slider. Sesuaikan posisi holder smartphone dengan kamera smartphone.',
@@ -77,13 +77,13 @@ class _FundusHelpPageState extends State<FundusHelpPage> {
     ),
     TutorialPage(
       color: AppColors.green,
-      title: 'Anda berhasil merakit Adaptor govision!',
+      title: 'Anda berhasil merakit Adaptor GoVision!',
       desc:
           'Pasang smartphone Anda pada holder smartphone. Pastikan kamera smartphone tepat lurus mengarah ke lensa.',
       imagePath: 'assets/images/tutorial_08.jpg',
     ),
     TutorialPage(
-      color: AppColors.lime,
+      color: AppColors.green,
       title: 'Sesuaikan posisi smartphone',
       desc:
           'Adaptor dapat digeser ke samping, atas, bawah, depan, dan belakang. Sesuaikan posisi smartphone sekitar 15 cm - 20 cm dari lensa.',
@@ -167,11 +167,8 @@ class TutorialPage extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.only(left: 24, right: 24, top: 100),
         decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(32),
-              bottomRight: Radius.circular(32),
-            )),
+          color: color,
+        ),
         child: Column(
           children: [
             Container(
@@ -220,7 +217,7 @@ class TutorialPage extends StatelessWidget {
                   child: const Text(
                     'Saya Mengerti',
                     style: TextStyle(
-                      color: AppColors.lime,
+                      color: AppColors.green,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),

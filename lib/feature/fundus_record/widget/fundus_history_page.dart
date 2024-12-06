@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:govision/feature/fundus_record/provider/fundus_provider.dart';
 import 'package:govision/feature/fundus_record/widget/fundus_detail2_page.dart';
 import 'package:govision/shared/constants/app_theme.dart';
+import 'package:govision/shared/util/snackbar.dart';
 import 'package:govision/shared/widget/image_loader.dart';
 import 'package:intl/intl.dart';
 import 'package:govision/feature/fundus_record/widget/fundus_list_option.dart';
@@ -62,7 +63,7 @@ class FundusHistoryList2State extends ConsumerState<FundusHistoryList2> {
                         .format(DateTime.parse(fundus.createdAt));
                     final formattedTime = DateFormat('HH:mm', 'id')
                         .format(DateTime.parse(fundus.createdAt));
-      
+
                     return Column(
                       children: [
                         Material(
@@ -71,7 +72,8 @@ class FundusHistoryList2State extends ConsumerState<FundusHistoryList2> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(24),
                             onTap: () async {
-                              await Navigator.of(context).push(MaterialPageRoute(
+                              await Navigator.of(context)
+                                  .push(MaterialPageRoute(
                                 builder: (context) => FundusDetail2Page(
                                   fundusId: fundus.id,
                                 ),
@@ -106,14 +108,49 @@ class FundusHistoryList2State extends ConsumerState<FundusHistoryList2> {
                                                 color: Colors.black54,
                                               ),
                                             ),
-                                            Text(
-                                              getConditionName(fundus
-                                                  .predictedDisease as String),
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
+                                            Row(
+                                              children: [
+                                                if (fundus.verifyStatus ==
+                                                    'pending')
+                                                  const CircleAvatar(
+                                                    radius: 5,
+                                                    backgroundColor:
+                                                        Colors.orange,
+                                                  ),
+                                                if (fundus.verifyStatus ==
+                                                    'verified')
+                                                  const CircleAvatar(
+                                                    radius: 5,
+                                                    backgroundColor:
+                                                        AppColors.green,
+                                                  ),
+                                                if (fundus.verifyStatus ==
+                                                    'rejected')
+                                                  const CircleAvatar(
+                                                    radius: 5,
+                                                    backgroundColor: Colors.red,
+                                                  ),
+                                                if (fundus.verifyStatus ==
+                                                    'on_review')
+                                                  const CircleAvatar(
+                                                    radius: 5,
+                                                    backgroundColor:
+                                                        AppColors.lime,
+                                                  ),
+                                                const SizedBox(
+                                                  width: 8,
+                                                ),
+                                                Text(
+                                                  getConditionName(
+                                                      fundus.predictedDisease
+                                                          as String),
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
                                           ],
                                         ),
                                         const SizedBox(height: 6),
@@ -154,23 +191,72 @@ class FundusHistoryList2State extends ConsumerState<FundusHistoryList2> {
                                   ),
                                   onPressed: () {
                                     final List<BottomSheetOption> options = [
-                                      BottomSheetOption(
-                                        title: 'Minta Verifikasi',
-                                        icon: Icon(Icons.verified_rounded),
-                                        onTap: () {
-                                          print('Option 1 selected');
-                                          // Implement your logic for Option 1
-                                        },
-                                      ),
+                                      if (fundus.verifyStatus == 'pending')
+                                        BottomSheetOption(
+                                          title: 'Minta Verifikasi',
+                                          icon: Icon(Icons.verified_rounded),
+                                          onTap: () {
+                                            ref
+                                                .read(
+                                                    fundusDetailNotifierProvider
+                                                        .notifier)
+                                                .requestVerifyFundus(fundus.id);
+                                          },
+                                        ),
                                       BottomSheetOption(
                                         title: 'Hapus',
                                         icon: Icon(Icons.delete_rounded),
-                                        onTap: () {
-                                          // Implement your logic for Option 2
-                                          ref
-                                              .read(fundusHistoryNotifierProvider
-                                                  .notifier)
-                                              .deleteFundus(fundus.id);
+                                        onTap: () async {
+                                          bool? confirmed =
+                                              await showDialog<bool>(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text(
+                                                    'Konfirmasi Hapus'),
+                                                content: const Text(
+                                                    'Apakah Anda yakin ingin menghapus rekam fundus ini?'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.of(context)
+                                                            .pop(false),
+                                                    child: const Text('Batal'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.of(context)
+                                                            .pop(true),
+                                                    style: ButtonStyle(
+                                                      overlayColor:
+                                                          WidgetStateProperty
+                                                              .all(Colors
+                                                                  .red[50]),
+                                                    ),
+                                                    child: const Text(
+                                                      'Hapus',
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+
+                                          if (confirmed == true) {
+                                            // Perform deletion
+                                            ref
+                                                .read(
+                                                    fundusHistoryNotifierProvider
+                                                        .notifier)
+                                                .deleteFundus(fundus.id);
+
+                                            showTopSnackBar(
+                                                context,
+                                                'Fundus berhasil dihapus',
+                                                null);
+                                          }
                                         },
                                       ),
                                     ];

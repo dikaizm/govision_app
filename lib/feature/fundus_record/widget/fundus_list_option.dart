@@ -32,7 +32,7 @@ Future<dynamic> buildBottomSheetOption(
   );
 }
 
-ListTile _buildOption(BuildContext context, BottomSheetOption option) {
+Widget _buildOption(BuildContext context, BottomSheetOption option) {
   return ListTile(
     leading: option.icon,
     title: Text(option.title),

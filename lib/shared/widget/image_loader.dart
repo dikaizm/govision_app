@@ -7,11 +7,13 @@ class ImageProfileLoader extends StatelessWidget {
     required this.imageUrl,
     this.size = 100,
     this.borderRadius = 24,
+    this.shape = BoxShape.rectangle,
   });
 
   final String imageUrl;
   final double size;
   final double borderRadius;
+  final BoxShape shape;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +21,11 @@ class ImageProfileLoader extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(borderRadius),
-        color: Colors.grey[200], // Placeholder background color
+        borderRadius: shape == BoxShape.rectangle
+            ? BorderRadius.circular(borderRadius)
+            : null,
+        color: Colors.grey[200],
+        shape: shape,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),

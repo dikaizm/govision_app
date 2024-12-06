@@ -5,9 +5,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:govision/feature/fundus_record/widget/fundus_history_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:govision/feature/fundus_capture/provider/fundus_capture_provider.dart';
-import 'package:govision/feature/fundus_record/widget/fundus_history_list.dart';
 import 'package:govision/shared/constants/app_theme.dart';
 import 'package:govision/shared/route/app_router.dart';
 import 'package:govision/shared/util/camera.dart';
@@ -259,10 +259,17 @@ class FundusCapturePageState extends ConsumerState<FundusCapturePage> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     IconButton(
-                                      icon: const Icon(
-                                        Icons.image_rounded,
-                                        size: 36,
-                                        color: Colors.black87,
+                                      icon: Container(
+                                        padding: const EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                          color: Colors.blueGrey[50],
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(
+                                          Icons.image_rounded,
+                                          size: 32,
+                                          color: Colors.black87,
+                                        ),
                                       ),
                                       onPressed: () {
                                         ref
@@ -358,7 +365,7 @@ class FundusCapturePageState extends ConsumerState<FundusCapturePage> {
                       ),
 
                       // Fundus history list
-                      const SliverToBoxAdapter(child: FundusHistoryList()),
+                      const SliverToBoxAdapter(child: FundusHistoryList2()),
                     ],
                   ),
                 );

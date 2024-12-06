@@ -24,7 +24,7 @@ final fundusHistoryNotifierProvider = AutoDisposeNotifierProvider<
 
 typedef _$FundusHistoryNotifier = AutoDisposeNotifier<FundusHistoryState>;
 String _$fundusDetailNotifierHash() =>
-    r'bf1f392659851f3b094fea9fda18f4eb2afc316b';
+    r'e2893df916d208bf23fe283cee99f84a4918680a';
 
 /// See also [FundusDetailNotifier].
 @ProviderFor(FundusDetailNotifier)

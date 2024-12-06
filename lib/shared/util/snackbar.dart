@@ -4,7 +4,7 @@ import 'package:govision/shared/constants/app_theme.dart';
 void showTopSnackBar(BuildContext context, String message, Color? bgColor) {
   Color backgroundColor;
   if (bgColor == null) {
-    backgroundColor = AppColors.lime;
+    backgroundColor = AppColors.green;
   } else {
     backgroundColor = bgColor;
   }

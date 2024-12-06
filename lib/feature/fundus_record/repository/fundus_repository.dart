@@ -11,6 +11,7 @@ abstract class FundusHistoryRepositoryProtocol {
   Future<FundusHistoryState> deleteFundus(int id);
 
   Future<FundusDetailState> fetchFundusDetail(int id);
+  Future<FundusDetailState> requestVerifyFundus(int id);
 }
 
 final fundusHistoryRepositoryProvider = Provider(FundusHistoryRepository.new);
@@ -110,6 +111,30 @@ class FundusHistoryRepository implements FundusHistoryRepositoryProtocol {
         }
 
         return FundusDetailState.loaded(_fundusDetail);
+      } catch (e) {
+        return FundusDetailState.error(
+            AppException.errorWithMessage(e.toString()));
+      }
+    } else if (response is APIError) {
+      return FundusDetailState.error(response.exception);
+    } else {
+      return const FundusDetailState.loading();
+    }
+  }
+
+  @override
+  Future<FundusDetailState> requestVerifyFundus(int id) async {
+    final response = await _api.post('/fundus/$id/request-verify', null);
+
+    response.when(
+        success: (success) {},
+        error: (error) {
+          return FundusDetailState.error(error);
+        });
+
+    if (response is APISuccess) {
+      try {
+        return fetchFundusDetail(id);
       } catch (e) {
         return FundusDetailState.error(
             AppException.errorWithMessage(e.toString()));

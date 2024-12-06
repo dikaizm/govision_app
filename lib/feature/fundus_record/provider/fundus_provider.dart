@@ -47,4 +47,10 @@ class FundusDetailNotifier extends _$FundusDetailNotifier {
       state = response;
     });
   }
+
+  void requestVerifyFundus(int id) {
+    _repository.requestVerifyFundus(id).then((response) {
+      state = response;
+    });
+  }
 }

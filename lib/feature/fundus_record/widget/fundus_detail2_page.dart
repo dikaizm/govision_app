@@ -185,6 +185,27 @@ class FundusDetail2PageState extends ConsumerState<FundusDetail2Page> {
                           const SizedBox(height: 4),
                           Row(
                             children: [
+                              if (data.verifyStatus == 'pending')
+                                const CircleAvatar(
+                                  radius: 5,
+                                  backgroundColor: Colors.orange,
+                                ),
+                              if (data.verifyStatus == 'verified')
+                                const CircleAvatar(
+                                  radius: 5,
+                                  backgroundColor: AppColors.green,
+                                ),
+                              if (data.verifyStatus == 'rejected')
+                                const CircleAvatar(
+                                  radius: 5,
+                                  backgroundColor: Colors.red,
+                                ),
+                              if (data.verifyStatus == 'on_review')
+                                const CircleAvatar(
+                                  radius: 5,
+                                  backgroundColor: AppColors.lime,
+                                ),
+                              const SizedBox(width: 8),
                               Text(getStatusName(data.verifyStatus),
                                   style: const TextStyle(
                                     fontSize: 16,
@@ -197,7 +218,7 @@ class FundusDetail2PageState extends ConsumerState<FundusDetail2Page> {
                       Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: AppColors.green10,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: (data.verifyStatus == 'verified')
@@ -211,46 +232,102 @@ class FundusDetail2PageState extends ConsumerState<FundusDetail2Page> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(height: 4),
-                                    const Text(
-                                      'Funduskopi Anda terlihat normal. Silahkan konsultasikan hasil ini dengan dokter mata terdekat.',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
+                                    const SizedBox(height: 12),
+                                    if (data.feedbacks != null)
+                                      Column(
+                                        children: [
+                                          for (var fb in data.feedbacks)
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(fb.doctorName,
+                                                        style: const TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: Colors
+                                                                .black87)),
+                                                    Text(
+                                                        DateFormat('dd/MM/yyyy',
+                                                                "id")
+                                                            .format(DateTime
+                                                                .parse(fb
+                                                                    .updatedAt)),
+                                                        style: const TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.black45,
+                                                        )),
+                                                  ],
+                                                ),
+                                                Text(
+                                                  fb.notes,
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black87),
+                                                ),
+                                                if (fb != data.feedbacks.last)
+                                                  const SizedBox(height: 12),
+                                              ],
+                                            ),
+                                        ],
+                                      )
+                                    else
+                                      const Text(
+                                        'Tidak ada feedback',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black54,
+                                        ),
                                       ),
-                                    ),
                                   ],
                                 )
-                              : Column(
-                                  children: [
-                                    const Text(
-                                        'Minta verifikasi dokter profesional untuk memastikan hasil deteksi aplikasi valid'),
-                                    const SizedBox(height: 12),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        // Call API to verify fundus result
-                                        // Dialog modal to show confirmation verify has been sent
-                                        _showConfirmationDialog(context);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        minimumSize:
-                                            const Size(double.infinity, 40),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 12),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        backgroundColor: AppColors.green,
-                                      ),
-                                      child: const Text(
-                                        'Verifikasi Hasil',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    )
-                                  ],
-                                ))
+                              : (data.verifyStatus == 'on_review')
+                                  ? Text(
+                                      'Hasil sedang dalam proses verifikasi oleh dokter profesional.')
+                                  : Column(
+                                      children: [
+                                        const Text(
+                                            'Minta verifikasi dokter profesional untuk memastikan hasil deteksi aplikasi valid.'),
+                                        const SizedBox(height: 12),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            // Call API to verify fundus result
+                                            // Dialog modal to show confirmation verify has been sent
+                                            ref
+                                                .read(
+                                                    fundusDetailNotifierProvider
+                                                        .notifier)
+                                                .requestVerifyFundus(
+                                                    widget.fundusId);
+
+                                            _showConfirmationDialog(context);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                            minimumSize:
+                                                const Size(double.infinity, 40),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16, vertical: 12),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            backgroundColor: AppColors.green,
+                                          ),
+                                          child: const Text(
+                                            'Verifikasi Hasil',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        )
+                                      ],
+                                    ))
                     ],
                   ),
                 ),
@@ -284,11 +361,11 @@ class FundusDetail2PageState extends ConsumerState<FundusDetail2Page> {
             borderRadius: BorderRadius.circular(16),
           ),
           backgroundColor: Colors.white,
-          title: Text(
-            'Konfirmasi',
+          title: const Text(
+            'Permintaan',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
-          content: Text(
+          content: const Text(
             'Permintaan verifikasi fundus telah dikirim.',
             style: TextStyle(fontSize: 16),
           ),
@@ -297,9 +374,12 @@ class FundusDetail2PageState extends ConsumerState<FundusDetail2Page> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text(
+              style: ButtonStyle(
+                overlayColor: WidgetStateProperty.all(AppColors.green10),
+              ),
+              child: const Text(
                 'OK',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(color: AppColors.green),
               ),
             ),
           ],

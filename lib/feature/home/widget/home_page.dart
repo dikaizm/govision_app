@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:govision/app/widget/main_page.dart';
 import 'package:govision/feature/education/provider/article2_provider.dart';
+import 'package:govision/feature/fundus_record/widget/fundus_detail2_page.dart';
 import 'package:govision/feature/home/provider/appointment_provider.dart';
 import 'package:govision/feature/home/provider/hero_provider.dart';
 import 'package:govision/shared/constants/app_theme.dart';
 import 'package:govision/shared/route/app_router.dart';
+import 'package:govision/shared/util/global.dart';
 import 'package:govision/shared/widget/app_bar.dart';
 import 'package:govision/shared/widget/card_feature.dart';
 import 'package:govision/shared/widget/image_loader.dart';
@@ -61,7 +64,7 @@ class HomePage extends ConsumerWidget {
                   color: Colors.blueGrey.withOpacity(0.08),
                   borderRadius: BorderRadius.circular(24),
                 ),
-                child: Center(
+                child: const Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(AppColors.green),
                   ),
@@ -84,39 +87,51 @@ class HomePage extends ConsumerWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'KONDISI FUNDUS',
                               style: TextStyle(
                                 fontSize: 12,
                               ),
                             ),
                             Text(
-                              'Normal',
-                              style: TextStyle(
+                              getConditionName(data.predictedDisease),
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
                         ),
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(99),
-                          ),
-                          child: Row(
-                            children: [
-                              CircleAvatar(),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text('Lihat'),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Icon(Icons.arrow_forward_ios)
-                            ],
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return FundusDetail2Page(fundusId: data.id);
+                            }));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(99),
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                            child: Row(
+                              children: [
+                                ImageProfileLoader(
+                                    imageUrl: data.imageUrl,
+                                    size: 40,
+                                    shape: BoxShape.circle),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                const Text('Lihat'),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                const Icon(Icons.arrow_forward_ios)
+                              ],
+                            ),
                           ),
                         )
                       ],
@@ -124,18 +139,18 @@ class HomePage extends ConsumerWidget {
                     const SizedBox(
                       height: 12,
                     ),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'STATUS DIABETES',
                           style: TextStyle(
                             fontSize: 12,
                           ),
                         ),
                         Text(
-                          'Penderita Diabetes Tipe 1',
-                          style: TextStyle(
+                          getDiabetesType(data.diabetesType),
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
@@ -145,7 +160,7 @@ class HomePage extends ConsumerWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.grey,
                       thickness: 0.5,
                     ),
@@ -155,13 +170,13 @@ class HomePage extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Lakukan pemeriksaan setiap 12 bulan'),
+                        Text(data.recommendedExamination),
                         GestureDetector(
                             onTap: () {
                               _showRecommendationDetailModalBottomSheet(
-                                  context);
+                                  context, data.recommendedNotes);
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.info_rounded,
                               color: AppColors.green,
                             ))
@@ -195,7 +210,8 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  void _showRecommendationDetailModalBottomSheet(BuildContext context) {
+  void _showRecommendationDetailModalBottomSheet(
+      BuildContext context, String note) {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -230,9 +246,10 @@ class HomePage extends ConsumerWidget {
               padding: const EdgeInsets.only(
                   left: 16, right: 16, top: 8, bottom: 16),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Pasien diabetes tanpa tanda-tanda retinopati disarankan untuk melakukan pemeriksaan fundus tahunan untuk mendeteksi perubahan dini.',
+                    note,
                     style: TextStyle(fontSize: 14),
                   ),
                   SizedBox(height: 20),
@@ -328,6 +345,9 @@ class HomePage extends ConsumerWidget {
                       scrollDirection: Axis.horizontal,
                       itemCount: data.length,
                       itemBuilder: (context, index) {
+                        final isPassed =
+                            data[index].date.isBefore(DateTime.now());
+
                         return InkWell(
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
@@ -351,9 +371,11 @@ class HomePage extends ConsumerWidget {
                               children: [
                                 Container(
                                   padding: const EdgeInsets.all(16),
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.green20,
-                                    borderRadius: BorderRadius.only(
+                                  decoration: BoxDecoration(
+                                    color: isPassed
+                                        ? Colors.grey[300]
+                                        : AppColors.green20,
+                                    borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(24),
                                       topRight: Radius.circular(24),
                                     ),
@@ -387,9 +409,11 @@ class HomePage extends ConsumerWidget {
                                   ),
                                 ),
                                 Container(
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.green10,
-                                    borderRadius: BorderRadius.only(
+                                  decoration: BoxDecoration(
+                                    color: isPassed
+                                        ? Colors.grey[100]
+                                        : AppColors.green10,
+                                    borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(24),
                                       bottomRight: Radius.circular(24),
                                     ),
@@ -457,14 +481,21 @@ class HomePage extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Rekomendasi Artikel',
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
-              Text('Lihat Semua', style: TextStyle(color: AppColors.green)),
+              InkWell(
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                    final bottomNavState = ref.read(bottomNavNotifier);
+                    bottomNavState.changeIndex(2);
+                  },
+                  child: const Text('Lihat Semua',
+                      style: TextStyle(color: AppColors.green))),
             ],
           ),
           const SizedBox(height: 12),
@@ -564,5 +595,18 @@ class HomePage extends ConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+String getDiabetesType(String type) {
+  switch (type) {
+    case 'type_1':
+      return 'Penderita Diabetes Tipe 1';
+    case 'type_2':
+      return 'Penderita Diabetes Tipe 2';
+    case 'gestational':
+      return 'Penderita Diabetes Gestasional';
+    default:
+      return 'Penderita Diabetes';
   }
 }

@@ -65,8 +65,8 @@ class Education2PageState extends ConsumerState<Education2Page> {
                     },
                     decoration: InputDecoration(
                       hintText: 'Cari artikel...',
-                      hintStyle: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.normal),
+                      hintStyle:
+                          const TextStyle(fontSize: 16, color: Colors.black54),
                       prefixIcon: const Icon(Icons.search),
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 4, horizontal: 16),
