@@ -5,8 +5,6 @@ part 'home_provider.g.dart';
 
 @riverpod
 class HomeNotifier extends _$HomeNotifier {
-  
-
   @override
   HomeState build() {
     return const HomeState.loaded('Data loaded');

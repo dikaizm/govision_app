@@ -4,7 +4,7 @@ import 'package:govision/feature/auth/provider/auth_provider.dart';
 import 'package:govision/feature/auth/repository/token_repository.dart';
 import 'package:govision/feature/auth/state/auth_state.dart';
 import 'package:govision/feature/chat/widget/chat_page.dart';
-import 'package:govision/feature/education/widget/education_page.dart';
+import 'package:govision/feature/education/widget/education2_page.dart';
 import 'package:govision/feature/home/widget/home_page.dart';
 import 'package:govision/feature/home_doctor/widget/home_doctor_page.dart';
 import 'package:govision/feature/medical_record/widget/medical_record_page.dart';
@@ -56,7 +56,7 @@ class AppStartNotifier extends _$AppStartNotifier {
       pages: const [
         HomePage(),
         MedicalRecordPage(),
-        EducationPage(),
+        Education2Page(),
         ChatPage(),
       ],
       bottomNavs: [

@@ -1,31 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:govision/feature/education/model/article.dart';
-import 'package:govision/feature/education/provider/articles_provider.dart';
-import 'package:govision/shared/widget/app_bar.dart';
-import 'package:path/path.dart';
+import 'package:govision/feature/education/model/article2.dart';
+import 'package:govision/feature/education/provider/article2_provider.dart';
 
 const double _kImageCoverSize = 0.45;
 const double _kContentMinus = 0.04;
 
-class ArticleDetailPage extends ConsumerStatefulWidget {
-  const ArticleDetailPage({required this.articleId, super.key});
+class ArticleDetail2Page extends ConsumerStatefulWidget {
+  const ArticleDetail2Page({required this.articleId, super.key});
 
   final String articleId;
 
   @override
-  ArticleDetailPageState createState() => ArticleDetailPageState();
+  ArticleDetail2PageState createState() => ArticleDetail2PageState();
 }
 
-class ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
+class ArticleDetail2PageState extends ConsumerState<ArticleDetail2Page> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(articleDetailNotifierProvider.notifier)
-          .fetchArticleDetail(widget.articleId);
-    });
   }
 
   @override
@@ -72,10 +65,16 @@ class ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
   }
 
   Widget _widgetContent(BuildContext context) {
-    final state = ref.watch(articleDetailNotifierProvider);
+    final state = ref.watch(article2DetailNotifierProvider);
 
     return state.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
+      empty: () => const Center(child: Text('Tidak ada data')),
+      loading: () {
+        ref
+            .read(article2DetailNotifierProvider.notifier)
+            .fetchArticleDetail(widget.articleId);
+        return const Center(child: CircularProgressIndicator());
+      },
       loaded: (article) {
         return Stack(
           children: [
@@ -83,12 +82,14 @@ class ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
             SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     padding: const EdgeInsets.all(24),
                     height: MediaQuery.of(context).size.height *
                         (_kImageCoverSize - _kContentMinus),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
@@ -121,7 +122,7 @@ class ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                             const Icon(Icons.calendar_today, size: 16),
                             const SizedBox(width: 8),
                             Text(
-                              _formatDate(article.date),
+                              _formatDate(article.createdAt),
                               style: const TextStyle(fontSize: 14),
                             ),
                             const Spacer(),
@@ -130,7 +131,7 @@ class ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                                 const Icon(Icons.remove_red_eye, size: 16),
                                 const SizedBox(width: 8),
                                 Text(
-                                  article.view.toString(),
+                                  article.readCount.toString(),
                                   style: const TextStyle(fontSize: 14),
                                 ),
                               ],
@@ -139,7 +140,7 @@ class ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
                         ),
                         const SizedBox(height: 24),
                         Text(
-                          article.content,
+                          article.body,
                           style: const TextStyle(fontSize: 16),
                         ),
                       ],
@@ -151,21 +152,43 @@ class ArticleDetailPageState extends ConsumerState<ArticleDetailPage> {
           ],
         );
       },
-      error: (message) => Center(child: Text(message)),
+      error: (e) => Center(child: Text(e.toString())),
     );
   }
 
-  List<Widget> _bodyImageCover(BuildContext context, Article article) {
+  List<Widget> _bodyImageCover(BuildContext context, Article2Detail article) {
     final imageHeight = MediaQuery.of(context).size.height * _kImageCoverSize;
 
     return [
-      Container(
+      SizedBox(
         height: imageHeight,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(article.image),
-            fit: BoxFit.cover,
-          ),
+        child: Image.network(
+          article.image,
+          fit: BoxFit.cover,
+          loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent? loadingProgress) {
+            if (loadingProgress == null) {
+              return child; // Show the image once loaded
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          (loadingProgress.expectedTotalBytes ?? 1)
+                      : null,
+                ),
+              ); // Show a loading spinner while the image is loading
+            }
+          },
+          errorBuilder:
+              (BuildContext context, Object error, StackTrace? stackTrace) {
+            return Center(
+              child: Icon(Icons.error,
+                  size: 64,
+                  color: Colors
+                      .grey), // Show an error icon if the image fails to load
+            );
+          },
         ),
       ),
       Container(

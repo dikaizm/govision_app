@@ -29,24 +29,7 @@ class HomeDoctorPage extends ConsumerWidget {
   }
 
   Widget _widgetContent(BuildContext context, WidgetRef ref) {
-    // final state = ref.watch(booksNotifierProvider);
-
-    // return state.when(
-    //   loading: () {
-    //     return _widgetLoading(context, ref);
-    //   },
-    //   booksLoaded: (books) {
-    //     return ListView.builder(
-    //         itemCount: books.length,
-    //         itemBuilder: (BuildContext context, int index) {
-    //           return RowBookWidget(book: books[index]);
-    //         });
-    //   },
-    //   error: (AppException error) {
-    //     return _widgetLoading(context, ref);
-    //   },
-    // );
-
+    
     final homeState = ref.watch(homeNotifierProvider);
 
     return homeState.when(

@@ -1,7 +1,7 @@
 String getConditionName(String name) {
   switch (name.toLowerCase()) {
     case 'no_dr':
-      return 'tidak terdeteksi DR';
+      return 'Normal';
     case 'mild_dr':
       return 'Mild DR';
     case 'moderate_dr':

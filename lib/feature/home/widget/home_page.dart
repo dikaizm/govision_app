@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:govision/feature/education/provider/article2_provider.dart';
 import 'package:govision/feature/home/provider/appointment_provider.dart';
-import 'package:govision/feature/home/provider/home_provider.dart';
+import 'package:govision/feature/home/provider/hero_provider.dart';
 import 'package:govision/shared/constants/app_theme.dart';
 import 'package:govision/shared/route/app_router.dart';
 import 'package:govision/shared/widget/app_bar.dart';
@@ -32,25 +33,41 @@ class HomePage extends ConsumerWidget {
   }
 
   Widget _widgetContent(BuildContext context, WidgetRef ref) {
-    final homeState = ref.watch(homeNotifierProvider);
+    final heroState = ref.watch(heroNotifierProvider);
 
     Future<void> _onRefresh() async {
       ref.read(appointmentNotifierProvider.notifier).fetchAppointments();
+      ref.read(article2NotifierProvider.notifier).fetchArticles();
+      ref.read(heroNotifierProvider.notifier).fetchHero();
     }
 
-    return homeState.when(
-      loading: () => _widgetLoading(context, ref),
-      loaded: (data) => RefreshIndicator(
-        onRefresh: _onRefresh,
-        color: AppColors.green,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 16),
-              // Kondisi fundus kamu
-              Container(
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      color: AppColors.green,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 16),
+            // Kondisi fundus kamu
+            heroState.when(
+              loading: () => Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.all(16),
+                width: double.infinity,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.green),
+                  ),
+                ),
+              ),
+              loaded: (data) => Container(
                 width: double.infinity,
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 padding: const EdgeInsets.all(16),
@@ -141,7 +158,8 @@ class HomePage extends ConsumerWidget {
                         Text('Lakukan pemeriksaan setiap 12 bulan'),
                         GestureDetector(
                             onTap: () {
-                              _showRecommendationDetailModalBottomSheet(context);
+                              _showRecommendationDetailModalBottomSheet(
+                                  context);
                             },
                             child: Icon(
                               Icons.info_rounded,
@@ -152,15 +170,27 @@ class HomePage extends ConsumerWidget {
                   ],
                 ),
               ),
-              _bodyMainFeatures(context, ref),
-              _bodyAppointment(context, ref),
-              _bodyArticle(context, ref),
-            ],
-          ),
+              error: (e) => Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.all(16),
+                width: double.infinity,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                alignment: Alignment.center,
+                child: Center(
+                  child: Text(e.toString()),
+                ),
+              ),
+              empty: SizedBox.shrink,
+            ),
+            _bodyMainFeatures(context, ref),
+            _bodyAppointment(context, ref),
+            _bodyArticle(context, ref),
+          ],
         ),
-      ),
-      error: (message) => Center(
-        child: Text(message),
       ),
     );
   }
@@ -270,7 +300,7 @@ class HomePage extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Jadwal Konsultasi Minggu Ini',
+                  'Konsultasi Minggu Ini',
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                 ),
                 Text('Lihat Semua', style: TextStyle(color: AppColors.green)),
@@ -421,63 +451,116 @@ class HomePage extends ConsumerWidget {
   }
 
   Widget _bodyArticle(BuildContext context, WidgetRef ref) {
+    final articleState = ref.watch(article2NotifierProvider);
+
     return Container(
-      margin: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          const Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Rekomendasi Artikel',
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                ),
-                Text('Lihat Semua', style: TextStyle(color: AppColors.green)),
-              ],
-            ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Rekomendasi Artikel',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              Text('Lihat Semua', style: TextStyle(color: AppColors.green)),
+            ],
           ),
           const SizedBox(height: 12),
-          Container(
-            alignment: Alignment.center,
-            height: 172,
-            width: double.infinity,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: 200,
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.grey[200]!),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 100,
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text('Perawatan Mata yang Tepat di Era Digital',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w500)),
-                      ],
-                    ),
-                  );
-                }),
-          )
+          articleState.when(
+              empty: () {
+                return Container(
+                  alignment: Alignment.center,
+                  width: double.infinity,
+                  height: 172,
+                  child: const Text('Tidak ada artikel',
+                      style: TextStyle(color: Colors.grey)),
+                );
+              },
+              error: (e) {
+                return Center(
+                  child: Text(e.toString()),
+                );
+              },
+              loading: () => _widgetLoading(context, ref),
+              loaded: (data) => Container(
+                    alignment: Alignment.center,
+                    height: 172,
+                    width: double.infinity,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: 200,
+                            margin: EdgeInsets.only(
+                                right: index == data.length - 1 ? 0 : 16),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.blueGrey.withOpacity(0.08),
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 100,
+                                  width: double.infinity,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.lime,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Image.network(
+                                    data[index].image,
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child; // Show the image once loaded
+                                      } else {
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    (loadingProgress
+                                                            .expectedTotalBytes ??
+                                                        1)
+                                                : null,
+                                          ),
+                                        ); // Show a loading spinner while the image is loading
+                                      }
+                                    },
+                                    errorBuilder: (BuildContext context,
+                                        Object error, StackTrace? stackTrace) {
+                                      return Center(
+                                        child: Icon(Icons.image,
+                                            size: 40,
+                                            color: Colors
+                                                .black54), // Show an error icon if the image fails to load
+                                      );
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(data[index].title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
+                              ],
+                            ),
+                          );
+                        }),
+                  )),
         ],
       ),
     );

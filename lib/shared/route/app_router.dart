@@ -14,8 +14,7 @@ import 'package:govision/feature/auth/widget/register_page.dart';
 import 'package:govision/feature/auth/widget/sign_in_page.dart';
 import 'package:govision/feature/chat/widget/chat_page.dart';
 import 'package:govision/feature/chat/widget/chat_room_page.dart';
-import 'package:govision/feature/doctor_profile/widget/doctor_profile_page.dart';
-import 'package:govision/feature/education/widget/education_page.dart';
+import 'package:govision/feature/education/widget/education2_page.dart';
 import 'package:govision/feature/fundus_capture/widget/fundus_capture_page.dart';
 import 'package:govision/feature/fundus_capture/widget/fundus_help_page.dart';
 import 'package:govision/feature/fundus_record/widget/fundus_detail_page.dart';
@@ -174,7 +173,7 @@ class EducationRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const EducationPage();
+    return const Education2Page();
   }
 }
 

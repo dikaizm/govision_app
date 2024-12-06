@@ -127,12 +127,12 @@ class AppointmentPage extends ConsumerWidget {
           Text(
             'Pilih Dokter',
             style: TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8),
           Text(
               'Jadwalkan janji temu dengan dokter untuk menindaklanjuti hasil periksa mandiri di aplikasi.',
-              style: TextStyle(color: Colors.white, fontSize: 14))
+              style: TextStyle(color: Colors.white, fontSize: 12))
         ],
       ),
     );

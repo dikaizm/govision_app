@@ -302,4 +302,177 @@ class ApiProvider {
       return const APIResponse.error(AppException.error());
     }
   }
+
+  Future<APIResponse> delete(
+    String path, {
+    String? newBaseUrl,
+    String? token,
+    Map<String, dynamic>? query,
+    ContentType contentType = ContentType.json,
+  }) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return const APIResponse.error(AppException.connectivity());
+    }
+    String url;
+    if (newBaseUrl != null) {
+      url = newBaseUrl + path;
+    } else {
+      url = this._baseUrl + path;
+    }
+
+    var content = 'application/x-www-form-urlencoded';
+
+    if (contentType == ContentType.json) {
+      content = 'application/json; charset=utf-8';
+    }
+
+    final headers = {
+      'accept': '*/*',
+      'Content-Type': content,
+    };
+
+    final _appToken = await _tokenRepository.fetchToken();
+    if (_appToken != null) {
+      headers['Authorization'] = 'Bearer ${_appToken.token}';
+    }
+
+    try {
+      final response = await _dio.delete(
+        url,
+        queryParameters: query,
+        options: Options(validateStatus: (status) => true, headers: headers),
+      );
+      if (response == null) {
+        return const APIResponse.error(AppException.error());
+      }
+      if (response.statusCode == null) {
+        return const APIResponse.error(AppException.connectivity());
+      }
+
+      if (response.statusCode! < 300) {
+        return APIResponse.success(response.data['data']);
+      } else {
+        if (response.statusCode! == 404) {
+          return const APIResponse.error(AppException.connectivity());
+        } else if (response.statusCode! == 401) {
+          return APIResponse.error(AppException.unauthorized());
+        } else if (response.statusCode! == 502) {
+          return const APIResponse.error(AppException.error());
+        } else {
+          if (response.data['error'] != null) {
+            return APIResponse.error(AppException.errorWithMessage(
+                response.data['error'] as String ?? ''));
+          } else {
+            return const APIResponse.error(AppException.error());
+          }
+        }
+      }
+    } on DioError catch (e) {
+      if (e.error is SocketException) {
+        return const APIResponse.error(AppException.connectivity());
+      }
+      if (e.type == DioErrorType.connectionTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+        return const APIResponse.error(AppException.connectivity());
+      }
+      return const APIResponse.error(AppException.error());
+    }
+  }
+
+  Future<APIResponse> put(
+    String path,
+    dynamic body, {
+    String? newBaseUrl,
+    String? token,
+    Map<String, String?>? query,
+    ContentType contentType = ContentType.json,
+  }) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return const APIResponse.error(AppException.connectivity());
+    }
+    String url;
+    if (newBaseUrl != null) {
+      url = newBaseUrl + path;
+    } else {
+      url = this._baseUrl + path;
+    }
+    var content = 'application/x-www-form-urlencoded';
+
+    if (contentType == ContentType.json) {
+      content = 'application/json';
+    }
+
+    try {
+      final headers = {
+        'accept': '*/*',
+        'Content-Type': content,
+      };
+      final _appToken = await _tokenRepository.fetchToken();
+      if (_appToken != null) {
+        headers['Authorization'] = 'Bearer ${_appToken.token}';
+      }
+      //Sometime for some specific endpoint it may require to use different Token
+      if (token != null) {
+        headers['Authorization'] = 'Bearer ${token}';
+      }
+
+      final response = await _dio.put(
+        url,
+        data: body,
+        queryParameters: query,
+        options: Options(validateStatus: (status) => true, headers: headers),
+      );
+
+      if (response.statusCode == null) {
+        return const APIResponse.error(AppException.connectivity());
+      }
+
+      if (response.statusCode! < 300) {
+        if (response.data['data'] != null) {
+          return APIResponse.success(response.data['data']);
+        } else {
+          return APIResponse.success(response.data);
+        }
+      } else {
+        // if (response.statusCode! == 404) {
+        //   return const APIResponse.error(AppException.connectivity());
+        // } else
+        if (response.statusCode! == 401) {
+          return APIResponse.error(AppException.unauthorized());
+        } else if (response.statusCode! == 502) {
+          return const APIResponse.error(AppException.error());
+        } else {
+          if (response.data['error'] != null) {
+            return APIResponse.error(AppException.errorWithMessage(
+                response.data['error'] as String ?? ''));
+          } else {
+            return const APIResponse.error(AppException.error());
+          }
+        }
+      }
+    } on DioError catch (e) {
+      if (e.error is SocketException) {
+        return const APIResponse.error(AppException.connectivity());
+      }
+      if (e.type == DioErrorType.connectionTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+        return const APIResponse.error(AppException.connectivity());
+      }
+
+      if (e.response != null) {
+        if (e.response!.data['message'] != null) {
+          return APIResponse.error(AppException.errorWithMessage(
+              e.response!.data['message'] as String));
+        }
+      }
+      return APIResponse.error(AppException.errorWithMessage(e.message ?? ''));
+    } on Error catch (e) {
+      return APIResponse.error(
+          AppException.errorWithMessage(e.stackTrace.toString()));
+    }
+  }
 }
