@@ -11,8 +11,8 @@ _$FundusImpl _$$FundusImplFromJson(Map<String, dynamic> json) => _$FundusImpl(
       imageUrl: json['image_url'] as String,
       verifyStatus: json['verify_status'] as String,
       predictedDisease: json['predicted_disease'] as String,
-      createdAt: json['created_at'] as String,
-      updatedAt: json['updated_at'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
       feedbacks: (json['feedbacks'] as List<dynamic>)
           .map((e) => FundusFeedback.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -24,8 +24,8 @@ Map<String, dynamic> _$$FundusImplToJson(_$FundusImpl instance) =>
       'image_url': instance.imageUrl,
       'verify_status': instance.verifyStatus,
       'predicted_disease': instance.predictedDisease,
-      'created_at': instance.createdAt,
-      'updated_at': instance.updatedAt,
+      'created_at': instance.createdAt.toIso8601String(),
+      'updated_at': instance.updatedAt.toIso8601String(),
       'feedbacks': instance.feedbacks,
     };
 
@@ -35,8 +35,8 @@ _$FundusFeedbackImpl _$$FundusFeedbackImplFromJson(Map<String, dynamic> json) =>
       doctorUserId: json['doctor_user_id'] as String,
       doctorName: json['doctor_name'] as String,
       notes: json['notes'] as String,
-      createdAt: json['created_at'] as String,
-      updatedAt: json['updated_at'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
     );
 
 Map<String, dynamic> _$$FundusFeedbackImplToJson(
@@ -46,6 +46,6 @@ Map<String, dynamic> _$$FundusFeedbackImplToJson(
       'doctor_user_id': instance.doctorUserId,
       'doctor_name': instance.doctorName,
       'notes': instance.notes,
-      'created_at': instance.createdAt,
-      'updated_at': instance.updatedAt,
+      'created_at': instance.createdAt.toIso8601String(),
+      'updated_at': instance.updatedAt.toIso8601String(),
     };

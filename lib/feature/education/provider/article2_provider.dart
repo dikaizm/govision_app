@@ -11,12 +11,11 @@ class Article2Notifier extends _$Article2Notifier {
 
   @override
   Article2State build() {
-    fetchArticles();
     return const Article2State.loading();
   }
 
-  void fetchArticles() {
-    _repository.fetchArticle().then((response) {
+  void fetchArticles(int size) {
+    _repository.fetchArticle(size).then((response) {
       state = response;
     });
   }

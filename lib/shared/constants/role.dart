@@ -1,4 +1,9 @@
 enum Role {
-  doctor,
-  patient,
+  doctor('doctor'),
+  patient('patient'),
+  guest('guest');
+
+  final String value;
+
+  const Role(this.value);
 }

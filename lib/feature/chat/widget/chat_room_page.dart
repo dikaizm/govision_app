@@ -15,6 +15,30 @@ class ChatRoomPage extends ConsumerStatefulWidget {
 class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   final TextEditingController _inputController = TextEditingController();
 
+  List<Message> messages = [
+    Message(
+      user: 'Dokter',
+      message: 'Halo, ada yang bisa saya bantu?',
+      timestamp: DateTime(2024, 12, 09, 13, 10),
+    ),
+    Message(
+      user: 'Anda',
+      message: 'Halo, saya ingin konsultasi',
+      timestamp: DateTime(2024, 12, 09, 13, 11),
+    ),
+    Message(
+      user: 'Anda',
+      message: 'Mata saya terasa kabur',
+      timestamp: DateTime(2024, 12, 09, 13, 12),
+    ),
+    Message(
+      user: 'Dokter',
+      message:
+          'Mata Anda terlihat sehat, tetap jaga kesehatan mata Anda dengan mengonsumsi makanan yang bergizi dan hindari paparan sinar UV',
+      timestamp: DateTime(2024, 12, 09, 13, 20),
+    )
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +48,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           children: [
             CircleAvatar(),
             const SizedBox(width: 8),
-            Text('dr. Any', style: TextStyle(fontSize: 16))
+            Text('dr. Grimaldi Ihsan, Sp.M', style: TextStyle(fontSize: 16))
           ],
         ),
       ),
@@ -34,37 +58,31 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   }
 
   Widget _widgetContent(BuildContext context) {
-    final List<Message> messages = [
-      Message('dr. Any', 'sakans adkasda doaisdjoada', DateTime.now()),
-      Message('dr. Any', 'sakans adkasd', DateTime.now())
-    ];
-
     return Container(
-      margin: EdgeInsets.only(bottom: 64),
-      padding: EdgeInsets.all(16),
-      alignment: Alignment.bottomCenter,
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              reverse: true,
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                final message = messages[messages.length - 1 - index];
-                return ListTile(
-                  title: Text(message.user),
-                  subtitle: Text(message.message),
-                  trailing: Text(
-                    "${message.timestamp.hour}:${message.timestamp.minute}",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                );
-              },
+        margin: EdgeInsets.only(bottom: 64),
+        padding: EdgeInsets.all(16),
+        alignment: Alignment.bottomCenter,
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                reverse: true,
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  final message = messages[messages.length - 1 - index];
+                  return ListTile(
+                    title: Text(message.user),
+                    subtitle: Text(message.message),
+                    trailing: Text(
+                      "${message.timestamp.hour}:${message.timestamp.minute}",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 
   Widget _bottomSheetInput(BuildContext context) {
@@ -97,12 +115,11 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           IconButton(
             icon: Icon(Icons.send),
             onPressed: () {
-              // final message = ChatMessage(
-              //   user: 'User',
-              //   message: _inputController.text,
-              //   timestamp: DateTime.now(),
-              // );
-              // ref.read(chatProvider.notifier).addMessage(message);
+              final message = Message(
+                  user: 'Anda',
+                  message: _inputController.text,
+                  timestamp: DateTime.now());
+              messages.add(message);
               _inputController.clear();
             },
           ),

@@ -1,3 +1,4 @@
+import 'package:govision/feature/fundus_record/model/fundus.dart';
 import 'package:govision/feature/fundus_record/repository/fundus_repository.dart';
 import 'package:govision/feature/fundus_record/state/fundus_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -29,6 +30,12 @@ class FundusHistoryNotifier extends _$FundusHistoryNotifier {
 
   void refresh(void Function(FundusHistoryState state) callback) {
     callback(state);
+  }
+
+  void updateVerifyFundus(Fundus fundus) {
+    _repository.updateVerifyFundus(fundus).then((response) {
+      state = response;
+    });
   }
 }
 

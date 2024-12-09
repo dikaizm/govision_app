@@ -6,8 +6,9 @@ import 'package:govision/shared/http/api_response.dart';
 import 'package:govision/shared/http/app_exception.dart';
 
 abstract class Article2RepositoryProtocol {
-  Future<Article2State> fetchArticle();
+  Future<Article2State> fetchArticle(int size);
   Future<Article2DetailState> fetchArticleDetail(String id);
+  Future<List<Article2>> fetchArticleAsModel(int size);
 }
 
 final article2RepositoryProvider = Provider<Article2Repository>((ref) {
@@ -21,8 +22,8 @@ class Article2Repository implements Article2RepositoryProtocol {
   final Ref _ref;
 
   @override
-  Future<Article2State> fetchArticle() async {
-    final response = await _api.get('/articles');
+  Future<Article2State> fetchArticle(int size) async {
+    final response = await _api.get('/articles?size=$size');
 
     response.when(
         success: (success) {},
@@ -35,6 +36,10 @@ class Article2Repository implements Article2RepositoryProtocol {
       try {
         final _articles = articles2FromJson(value as List<dynamic>);
 
+        if (_articles.isEmpty) {
+          return const Article2State.empty();
+        }
+
         return Article2State.loaded(_articles);
       } catch (e) {
         return Article2State.error(AppException.errorWithMessage(e.toString()));
@@ -44,6 +49,20 @@ class Article2Repository implements Article2RepositoryProtocol {
     } else {
       return const Article2State.loading();
     }
+  }
+
+  @override
+  Future<List<Article2>> fetchArticleAsModel(int size) async {
+    final response = await _api.get('/articles?size=$size');
+
+    List<Article2> _articles = [];
+
+    if (response is APISuccess) {
+      final value = response.value;
+      _articles = articles2FromJson(value as List<dynamic>);
+    }
+
+    return _articles;
   }
 
   @override
@@ -59,6 +78,10 @@ class Article2Repository implements Article2RepositoryProtocol {
     if (response is APISuccess) {
       final value = response.value;
       try {
+        if (value == null) {
+          return const Article2DetailState.empty();
+        }
+
         final _article = Article2Detail.fromJson(value as Map<String, dynamic>);
 
         return Article2DetailState.loaded(_article);

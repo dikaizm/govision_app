@@ -28,9 +28,9 @@ mixin _$Fundus {
   @JsonKey(name: 'predicted_disease')
   String get predictedDisease => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
-  String get createdAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
-  String get updatedAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
   List<FundusFeedback> get feedbacks => throw _privateConstructorUsedError;
 
   /// Serializes this Fundus to a JSON map.
@@ -52,8 +52,8 @@ abstract class $FundusCopyWith<$Res> {
       @JsonKey(name: 'image_url') String imageUrl,
       @JsonKey(name: 'verify_status') String verifyStatus,
       @JsonKey(name: 'predicted_disease') String predictedDisease,
-      @JsonKey(name: 'created_at') String createdAt,
-      @JsonKey(name: 'updated_at') String updatedAt,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt,
       List<FundusFeedback> feedbacks});
 }
 
@@ -100,11 +100,11 @@ class _$FundusCopyWithImpl<$Res, $Val extends Fundus>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       feedbacks: null == feedbacks
           ? _value.feedbacks
           : feedbacks // ignore: cast_nullable_to_non_nullable
@@ -125,8 +125,8 @@ abstract class _$$FundusImplCopyWith<$Res> implements $FundusCopyWith<$Res> {
       @JsonKey(name: 'image_url') String imageUrl,
       @JsonKey(name: 'verify_status') String verifyStatus,
       @JsonKey(name: 'predicted_disease') String predictedDisease,
-      @JsonKey(name: 'created_at') String createdAt,
-      @JsonKey(name: 'updated_at') String updatedAt,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt,
       List<FundusFeedback> feedbacks});
 }
 
@@ -171,11 +171,11 @@ class __$$FundusImplCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       feedbacks: null == feedbacks
           ? _value._feedbacks
           : feedbacks // ignore: cast_nullable_to_non_nullable
@@ -214,10 +214,10 @@ class _$FundusImpl extends _Fundus {
   final String predictedDisease;
   @override
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final DateTime createdAt;
   @override
   @JsonKey(name: 'updated_at')
-  final String updatedAt;
+  final DateTime updatedAt;
   final List<FundusFeedback> _feedbacks;
   @override
   List<FundusFeedback> get feedbacks {
@@ -286,8 +286,8 @@ abstract class _Fundus extends Fundus {
       @JsonKey(name: 'verify_status') required final String verifyStatus,
       @JsonKey(name: 'predicted_disease')
       required final String predictedDisease,
-      @JsonKey(name: 'created_at') required final String createdAt,
-      @JsonKey(name: 'updated_at') required final String updatedAt,
+      @JsonKey(name: 'created_at') required final DateTime createdAt,
+      @JsonKey(name: 'updated_at') required final DateTime updatedAt,
       required final List<FundusFeedback> feedbacks}) = _$FundusImpl;
   const _Fundus._() : super._();
 
@@ -306,10 +306,10 @@ abstract class _Fundus extends Fundus {
   String get predictedDisease;
   @override
   @JsonKey(name: 'created_at')
-  String get createdAt;
+  DateTime get createdAt;
   @override
   @JsonKey(name: 'updated_at')
-  String get updatedAt;
+  DateTime get updatedAt;
   @override
   List<FundusFeedback> get feedbacks;
 
@@ -334,9 +334,9 @@ mixin _$FundusFeedback {
   String get doctorName => throw _privateConstructorUsedError;
   String get notes => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
-  String get createdAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
-  String get updatedAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this FundusFeedback to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -359,8 +359,8 @@ abstract class $FundusFeedbackCopyWith<$Res> {
       @JsonKey(name: 'doctor_user_id') String doctorUserId,
       @JsonKey(name: 'doctor_name') String doctorName,
       String notes,
-      @JsonKey(name: 'created_at') String createdAt,
-      @JsonKey(name: 'updated_at') String updatedAt});
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt});
 }
 
 /// @nodoc
@@ -405,11 +405,11 @@ class _$FundusFeedbackCopyWithImpl<$Res, $Val extends FundusFeedback>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
     ) as $Val);
   }
 }
@@ -427,8 +427,8 @@ abstract class _$$FundusFeedbackImplCopyWith<$Res>
       @JsonKey(name: 'doctor_user_id') String doctorUserId,
       @JsonKey(name: 'doctor_name') String doctorName,
       String notes,
-      @JsonKey(name: 'created_at') String createdAt,
-      @JsonKey(name: 'updated_at') String updatedAt});
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt});
 }
 
 /// @nodoc
@@ -471,11 +471,11 @@ class __$$FundusFeedbackImplCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
     ));
   }
 }
@@ -506,10 +506,10 @@ class _$FundusFeedbackImpl implements _FundusFeedback {
   final String notes;
   @override
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final DateTime createdAt;
   @override
   @JsonKey(name: 'updated_at')
-  final String updatedAt;
+  final DateTime updatedAt;
 
   @override
   String toString() {
@@ -561,8 +561,8 @@ abstract class _FundusFeedback implements FundusFeedback {
           @JsonKey(name: 'doctor_user_id') required final String doctorUserId,
           @JsonKey(name: 'doctor_name') required final String doctorName,
           required final String notes,
-          @JsonKey(name: 'created_at') required final String createdAt,
-          @JsonKey(name: 'updated_at') required final String updatedAt}) =
+          @JsonKey(name: 'created_at') required final DateTime createdAt,
+          @JsonKey(name: 'updated_at') required final DateTime updatedAt}) =
       _$FundusFeedbackImpl;
 
   factory _FundusFeedback.fromJson(Map<String, dynamic> json) =
@@ -580,10 +580,10 @@ abstract class _FundusFeedback implements FundusFeedback {
   String get notes;
   @override
   @JsonKey(name: 'created_at')
-  String get createdAt;
+  DateTime get createdAt;
   @override
   @JsonKey(name: 'updated_at')
-  String get updatedAt;
+  DateTime get updatedAt;
 
   /// Create a copy of FundusFeedback
   /// with the given fields replaced by the non-null parameter values.

@@ -15,9 +15,7 @@ class HomeDoctorPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: MainAppBar(
-        userName: 'dokter',
-      ),
+      appBar: MainAppBar(),
       body: _widgetContent(context, ref),
     );
   }
@@ -29,7 +27,6 @@ class HomeDoctorPage extends ConsumerWidget {
   }
 
   Widget _widgetContent(BuildContext context, WidgetRef ref) {
-    
     final homeState = ref.watch(homeNotifierProvider);
 
     return homeState.when(

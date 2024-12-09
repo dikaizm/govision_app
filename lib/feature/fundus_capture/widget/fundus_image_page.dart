@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:govision/feature/fundus_capture/provider/fundus_history_provider.dart';
-import 'package:govision/feature/fundus_record/widget/fundus_detail_page.dart';
+import 'package:govision/feature/fundus_record/widget/fundus_detail2_page.dart';
 import 'package:govision/shared/constants/app_theme.dart';
 import 'package:govision/shared/http/api_provider.dart';
 import 'package:govision/shared/util/db_loader.dart';
+import 'package:govision/shared/util/global.dart';
 import 'package:govision/shared/util/snackbar.dart';
 import 'package:govision/shared/widget/app_bar.dart';
 
@@ -48,7 +49,7 @@ class _FundusImagePageState extends ConsumerState<FundusImagePage> {
     final isLoadingDetection = ref.watch(loadingProvider);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: CustomAppBar(
         titleWidget: Image.asset(
           'assets/app_logo_xs.png',
@@ -56,173 +57,170 @@ class _FundusImagePageState extends ConsumerState<FundusImagePage> {
         ),
         centerTitle: true,
       ),
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Stack(
-          children: <Widget>[
-            FutureBuilder<File>(
-              future: _loadImage(widget.imagePath),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  // Show loading indicator while the image is being loaded
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  // Handle any errors that occurred during image loading
-                  return Center(child: Text('Error loading image'));
-                } else if (snapshot.hasData) {
-                  // Display the image once it's loaded
-                  return Image.file(snapshot.data!);
-                } else {
-                  return Center(child: Text('No image found'));
-                }
-              },
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          minimumSize: const Size(double.infinity, 40),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: BorderSide(color: Colors.blue),
-                          ),
-                        ),
-                        onPressed: () {
-                          context.pop();
-                        },
-                        child: Text(
-                          'Kembali',
+      body: Stack(
+        children: <Widget>[
+          FutureBuilder<File>(
+            future: _loadImage(widget.imagePath),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Show loading indicator while the image is being loaded
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                // Handle any errors that occurred during image loading
+                return const Center(child: Text('Error loading image'));
+              } else if (snapshot.hasData) {
+                // Display the image once it's loaded
+                return Image.file(
+                  snapshot.data!,
+                  width: double.infinity,
+                  fit: BoxFit.contain,
+                );
+              } else {
+                return const Center(child: Text('No image found'));
+              }
+            },
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        minimumSize: const Size(double.infinity, 40),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(color: Colors.blue),
                         ),
                       ),
+                      onPressed: () {
+                        context.pop();
+                      },
+                      child: const Text(
+                        'Ambil Ulang',
+                      ),
                     ),
-                    const SizedBox(width: 16.0),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 40),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          backgroundColor: AppColors.green,
+                  ),
+                  const SizedBox(width: 16.0),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 40),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        onPressed: isLoadingDetection
-                            ? null
-                            : () async {
-                                // Implement your submit logic here
-                                ref.read(loadingProvider.notifier).state = true;
+                        backgroundColor: AppColors.green,
+                      ),
+                      onPressed: isLoadingDetection
+                          ? null
+                          : () async {
+                              // Implement your submit logic here
+                              ref.read(loadingProvider.notifier).state = true;
 
-                                showTopSnackBar(
-                                    context, 'Deteksi sedang diproses', null);
+                              showTopSnackBar(
+                                  context, 'Deteksi sedang diproses', null);
 
-                                // Call detection API
-                                File image = File(widget.imagePath);
+                              // Call detection API
+                              File image = File(widget.imagePath);
 
-                                final detectResponse = await ref
-                                    .read(apiProvider)
-                                    .upload('/fundus/detect', image);
+                              final detectResponse = await ref
+                                  .read(apiProvider)
+                                  .upload('/fundus/detect', image);
 
-                                log(detectResponse.toString());
-                                await detectResponse.when(success: (res) async {
-                                  // Hide loading indicator
-                                  ref.read(loadingProvider.notifier).state =
-                                      false;
+                              log(detectResponse.toString());
+                              await detectResponse.when(success: (res) async {
+                                // Hide loading indicator
+                                ref.read(loadingProvider.notifier).state =
+                                    false;
 
-                                  final data;
-                                  if (res["data"] != null) {
-                                    data = res["data"] as Map<String, dynamic>;
-                                  } else {
-                                    data = null;
-                                  }
-                                  final message = res["message"] as String;
+                                final data;
+                                if (res["data"] != null) {
+                                  data = res["data"] as Map<String, dynamic>;
+                                } else {
+                                  data = null;
+                                }
+                                final message = res["message"] as String;
 
-                                  // Handle success response here
-                                  if (data == null) {
-                                    showTopSnackBar(
-                                        context, message, Colors.red[700]);
-                                    return;
-                                  }
+                                // Handle success response here
+                                if (data == null) {
+                                  showTopSnackBar(
+                                      context, message, Colors.red[700]);
+                                  return;
+                                }
 
-                                  final String condition =
-                                      data["predicted_disease"] as String;
-                                  final DateTime createdAt = DateTime.parse(
-                                      data["created_at"] as String);
+                                final int fundusId = data["id"] as int;
+                                final String condition =
+                                    data["predicted_disease"] as String;
+                                final DateTime createdAt = DateTime.parse(
+                                    data["created_at"] as String);
 
-                                  showTopSnackBar(context, condition, Colors.green);
+                                showTopSnackBar(context,
+                                    getConditionName(condition), Colors.green);
 
-                                  // Save image base64 to new file
-                                  final imageBase64 =
-                                      data["image_base64"] as String;
-                                  final imageBytes = base64Decode(imageBase64);
-                                  final newImagePath = widget.imagePath
-                                      .replaceAll('.jpg', '_detected.jpg');
-                                  final newImage = File(newImagePath);
-                                  await newImage.writeAsBytes(imageBytes);
+                                // Save image base64 to new file
+                                final imageBase64 =
+                                    data["image_base64"] as String;
+                                final imageBytes = base64Decode(imageBase64);
+                                final newImagePath = widget.imagePath
+                                    .replaceAll('.jpg', '_detected.jpg');
+                                final newImage = File(newImagePath);
+                                await newImage.writeAsBytes(imageBytes);
 
-                                  // Save image to local database
-                                  final dbLoader = ref.read(dbLoadProvider);
-                                  await dbLoader.insertImage(
-                                      widget.userId,
-                                      newImagePath,
-                                      'pending',
-                                      condition,
-                                      createdAt);
+                                // Save image to local database
+                                final dbLoader = ref.read(dbLoadProvider);
+                                await dbLoader.insertImage(
+                                    widget.userId,
+                                    newImagePath,
+                                    'pending',
+                                    condition,
+                                    createdAt);
 
-                                  ref.invalidate(fundusHistoryNotifierProvider);
+                                ref.invalidate(fundusHistoryNotifierProvider);
 
-                                  await Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              FundusDetailPage(
-                                                condition: condition,
-                                                image: newImage,
-                                                date: createdAt,
-                                              )));
-                                }, error: (error) {
-                                  // Hide loading indicator
-                                  ref.read(loadingProvider.notifier).state =
-                                      false;
-                                  showTopSnackBar(context,
-                                      'Deteksi fundus gagal', Colors.red[700]);
-                                });
-                              },
-                        child: isLoadingDetection
-                            ? SizedBox(
-                                child: const CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                                height: 20,
-                                width: 20,
-                              )
-                            : const Text(
-                                'Deteksi',
-                                style: TextStyle(color: Colors.white),
+                                await Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FundusDetail2Page(
+                                            fundusId: fundusId)));
+                              }, error: (error) {
+                                // Hide loading indicator
+                                ref.read(loadingProvider.notifier).state =
+                                    false;
+                                showTopSnackBar(context, 'Deteksi fundus gagal',
+                                    Colors.red[700]);
+                              });
+                            },
+                      child: isLoadingDetection
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
                               ),
-                      ),
+                            )
+                          : const Text(
+                              'Deteksi',
+                              style: TextStyle(color: Colors.white),
+                            ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

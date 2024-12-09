@@ -20,6 +20,14 @@ class Article2 with _$Article2 {
 
   factory Article2.fromJson(Map<String, dynamic> json) =>
       _$Article2FromJson(json);
+
+  static Article2 empty = Article2(
+    id: '',
+    title: '',
+    image: '',
+    readCount: 0,
+    createdAt: DateTime.now(),
+  );
 }
 
 @freezed

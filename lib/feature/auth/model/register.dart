@@ -21,7 +21,6 @@ class Register with _$Register {
     @JsonKey(name: 'birth_date') String? birthDate,
     @JsonKey(name: 'gender') String? gender,
     @JsonKey(name: 'role') String? role,
-    @JsonKey(name: 'role_id') int? roleId,
     @JsonKey(name: 'city') String? city,
     @JsonKey(name: 'province') String? province,
     @JsonKey(name: 'address_detail') String? addressDetail,

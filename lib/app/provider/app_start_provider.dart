@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:govision/app/model/menu.dart';
 import 'package:govision/feature/auth/provider/auth_provider.dart';
 import 'package:govision/feature/auth/repository/token_repository.dart';
+import 'package:govision/feature/auth/repository/user_repository.dart';
 import 'package:govision/feature/auth/state/auth_state.dart';
 import 'package:govision/feature/chat/widget/chat_page.dart';
 import 'package:govision/feature/education/widget/education2_page.dart';
@@ -35,17 +36,18 @@ class AppStartNotifier extends _$AppStartNotifier {
     final _authState = ref.watch(authNotifierProvider);
 
     if (_authState is AuthStateLoggedIn) {
-      return AppStartState.authenticated(role: _authState.role);
+      final user = _authState.user;
+      return AppStartState.authenticated(user);
     }
 
     if (_authState is AuthStateLoggedOut) {
-      return AppStartState.unauthenticated();
+      return const AppStartState.unauthenticated();
     }
 
     final token = await _tokenRepository.fetchToken();
     if (token != null) {
-      final role = await _tokenRepository.fetchUserRole(token.token);
-      return AppStartState.authenticated(role: role);
+      final user = await ref.read(userRepositoryProvider).fetchUser();
+      return AppStartState.authenticated(user);
     } else {
       return const AppStartState.unauthenticated();
     }

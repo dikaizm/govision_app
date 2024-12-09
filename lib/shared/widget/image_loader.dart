@@ -4,7 +4,7 @@ import 'package:govision/shared/constants/app_theme.dart';
 class ImageProfileLoader extends StatelessWidget {
   const ImageProfileLoader({
     super.key,
-    required this.imageUrl,
+    this.imageUrl = '',
     this.size = 100,
     this.borderRadius = 24,
     this.shape = BoxShape.rectangle,
@@ -29,9 +29,9 @@ class ImageProfileLoader extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
-        child: imageUrl != null && imageUrl!.isNotEmpty
+        child: imageUrl != ''
             ? Image.network(
-                imageUrl!,
+                imageUrl,
                 width: 100,
                 height: 100,
                 fit: BoxFit.cover,
@@ -49,14 +49,16 @@ class ImageProfileLoader extends StatelessWidget {
                   );
                 },
                 errorBuilder: (context, error, stackTrace) => const Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+                  child: Icon(
+                    Icons.error,
+                    size: 48,
+                    color: Colors.grey,
                   ),
                 ),
               )
             : const Center(
                 child: Icon(
-                  Icons.person, // Default icon when no image is available
+                  Icons.image, // Default icon when no image is available
                   size: 48,
                   color: Colors.grey,
                 ),

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:govision/feature/auth/model/user.dart';
 import 'package:govision/shared/constants/role.dart';
 import 'package:govision/shared/http/app_exception.dart';
 
@@ -10,7 +11,7 @@ class AuthState with _$AuthState {
 
   const factory AuthState.loading() = _Loading;
 
-  const factory AuthState.loggedIn({required Role role}) = AuthStateLoggedIn;
+  const factory AuthState.loggedIn(User user) = AuthStateLoggedIn;
 
   const factory AuthState.loggedOut() = AuthStateLoggedOut;
 

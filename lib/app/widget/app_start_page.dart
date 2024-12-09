@@ -19,8 +19,8 @@ class AppStartPage extends ConsumerWidget {
       data: (data) {
         return data.maybeWhen(
           initial: SplashPage.new,
-          authenticated: (role) {
-            if (role == Role.doctor) {
+          authenticated: (user) {
+            if (user.role == Role.doctor.value) {
               return const MainDoctorPage();
             } else {
               return const MainPatientPage();

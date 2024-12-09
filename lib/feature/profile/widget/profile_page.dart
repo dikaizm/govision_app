@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:govision/feature/auth/provider/auth_provider.dart';
+import 'package:govision/feature/auth/provider/user_provider.dart';
 import 'package:govision/shared/constants/app_theme.dart';
 import 'package:govision/shared/route/app_router.dart';
+import 'package:govision/shared/util/global.dart';
 import 'package:govision/shared/widget/app_bar.dart';
 import 'package:govision/shared/widget/button.dart';
 import 'package:govision/shared/widget/list_tile.dart';
@@ -36,7 +38,7 @@ class ProfilePage extends ConsumerWidget {
     final authNotifier = ref.read(authNotifierProvider.notifier);
 
     return SingleChildScrollView(
-      physics: AlwaysScrollableScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -46,8 +48,8 @@ class ProfilePage extends ConsumerWidget {
             width: double.infinity,
           ),
           Container(
-            margin: EdgeInsets.only(top: 80),
-            decoration: BoxDecoration(
+            margin: const EdgeInsets.only(top: 80),
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20)),
@@ -79,7 +81,7 @@ class ProfilePage extends ConsumerWidget {
               ),
             ),
           ),
-          _bodyBanner(context),
+          _bodyBanner(context, ref),
         ],
       ),
     );
@@ -88,7 +90,7 @@ class ProfilePage extends ConsumerWidget {
   Widget _bodyGeneral(BuildContext context) {
     final List<ListMenu> listMenu = [
       ListMenu('Pusat bantuan', Icons.help, () {}),
-      ListMenu('Tentang govision', Icons.info, () {}),
+      ListMenu('Tentang GoVision', Icons.info, () {}),
     ];
 
     // Define a function to generate the list with dividers
@@ -171,29 +173,70 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 
-  Widget _bodyBanner(BuildContext context) {
+  Widget _bodyBanner(BuildContext context, WidgetRef ref) {
+    final userState = ref.watch(userNotifierProvider);
+
     return Positioned(
       top: 25,
       child: Column(
         children: [
           Container(
+            clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 3),
+              border: Border.all(
+                  color: Colors.white,
+                  width: 3,
+                  strokeAlign: BorderSide.strokeAlignOutside),
             ),
             child: CircleAvatar(
               radius: 55,
-              backgroundImage: AssetImage('assets/avatar_example.png'),
+              backgroundColor: Colors.black26,
+              child: userState.when(
+                loading: CircularProgressIndicator.new,
+                loggedIn: (user) => Image.network(
+                  user.photo!,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                            AppColors.green),
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                (loadingProgress.expectedTotalBytes ?? 1)
+                            : null,
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => const Center(
+                      child: Icon(
+                    Icons.error,
+                    size: 48,
+                    color: Colors.grey,
+                  )),
+                ),
+                error: (e) => const Icon(
+                  Icons.person,
+                  size: 48,
+                  color: Colors.grey,
+                ),
+              ),
             ),
           ),
-          SizedBox(height: 10),
-          Text('Tiara Sabrina',
-              style: TextStyle(
+          const SizedBox(height: 10),
+          Text(
+              userState.when(
+                  loading: () => 'Loading...',
+                  loggedIn: (user) => user.name,
+                  error: (e) => e.toString()),
+              style: const TextStyle(
                   color: Colors.black,
                   fontSize: 16,
                   fontWeight: FontWeight.w600)),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
@@ -201,8 +244,11 @@ class ProfilePage extends ConsumerWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              'Pasien',
-              style: TextStyle(color: Colors.white),
+              userState.when(
+                  loading: () => 'Loading...',
+                  loggedIn: (user) => getRoleName(user.role),
+                  error: (e) => e.toString()),
+              style: const TextStyle(color: Colors.white),
             ),
           )
         ],

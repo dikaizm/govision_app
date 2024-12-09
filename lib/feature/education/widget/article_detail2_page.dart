@@ -161,36 +161,42 @@ class ArticleDetail2PageState extends ConsumerState<ArticleDetail2Page> {
 
     return [
       SizedBox(
-        height: imageHeight,
-        child: Image.network(
-          article.image,
-          fit: BoxFit.cover,
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent? loadingProgress) {
-            if (loadingProgress == null) {
-              return child; // Show the image once loaded
-            } else {
-              return Center(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          (loadingProgress.expectedTotalBytes ?? 1)
-                      : null,
-                ),
-              ); // Show a loading spinner while the image is loading
-            }
-          },
-          errorBuilder:
-              (BuildContext context, Object error, StackTrace? stackTrace) {
-            return Center(
-              child: Icon(Icons.error,
-                  size: 64,
-                  color: Colors
-                      .grey), // Show an error icon if the image fails to load
-            );
-          },
-        ),
-      ),
+          height: imageHeight,
+          child: article.image != ''
+              ? Image.network(
+                  article.image,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child; // Show the image once loaded
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  (loadingProgress.expectedTotalBytes ?? 1)
+                              : null,
+                        ),
+                      ); // Show a loading spinner while the image is loading
+                    }
+                  },
+                  errorBuilder: (BuildContext context, Object error,
+                      StackTrace? stackTrace) {
+                    return const Center(
+                      child: Icon(Icons.error,
+                          size: 64,
+                          color: Colors
+                              .grey), // Show an error icon if the image fails to load
+                    );
+                  },
+                )
+              : const Center(
+                  child: Icon(Icons.error,
+                      size: 64,
+                      color: Colors
+                          .grey), // Show an error icon if the image fails to load
+                )),
       Container(
         height: imageHeight,
         decoration: BoxDecoration(

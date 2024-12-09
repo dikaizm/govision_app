@@ -13,20 +13,12 @@ class ChatNotifier extends _$ChatNotifier {
   List<ChatItem> fetchChatItems() {
     final List<ChatItem> chatList = [
       ChatItem(
-          chatId: '1hakdhad',
+          chatId: 'c500e37e-abf6-4939-9e4e-42df1d89c1ee',
           name: 'dr. Grimaldi Ihsan, Sp.M',
           message:
               'Mata Anda terlihat sehat, tetap jaga kesehatan mata Anda dengan mengonsumsi makanan yang bergizi dan hindari paparan sinar UV',
-          time: '10:00',
+          time: '13:20',
           avatarUrl: 'assets/avatar_dokter_2.png',
-          isRead: false),
-      ChatItem(
-          chatId: 'adkjha9d',
-          name: 'dr. Sonie Umbara, Sp.M',
-          message:
-              'Tetap jaga kesehatan mata Anda dengan mengonsumsi makanan yang bergizi dan hindari paparan sinar UV',
-          time: '10:00',
-          avatarUrl: 'assets/avatar_dokter_3.png',
           isRead: false),
     ];
 

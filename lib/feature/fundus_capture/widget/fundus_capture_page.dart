@@ -311,14 +311,10 @@ class FundusCapturePageState extends ConsumerState<FundusCapturePage> {
                                         ),
                                       ),
                                     ),
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.circle,
-                                        size: 40,
-                                        color: Colors.transparent,
-                                      ),
-                                      onPressed: () {},
-                                    ),
+                                    const SizedBox(
+                                      height: 64,
+                                      width: 64,
+                                    )
                                   ],
                                 ),
                               ),
@@ -365,7 +361,11 @@ class FundusCapturePageState extends ConsumerState<FundusCapturePage> {
                       ),
 
                       // Fundus history list
-                      const SliverToBoxAdapter(child: FundusHistoryList2()),
+                      const SliverToBoxAdapter(
+                          child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: FundusHistoryList2(),
+                      )),
                     ],
                   ),
                 );

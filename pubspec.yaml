@@ -1,6 +1,6 @@
 name: govision
 description: GoVision is a mobile application that helps you to monitor diabetic retinopathy eye diseases using integrated AI.
-version: 1.1.0+1
+version: 1.1.0+2
 publish_to: none
 
 environment:
@@ -42,7 +42,7 @@ dev_dependencies:
   freezed: ^2.4.5
   go_router_builder: 2.7.0
   import_sorter: ^4.6.0
-  json_serializable: any
+  json_serializable: ^6.1.4
   pubspec_dependency_sorter: ^1.0.4
   riverpod_generator: ^2.3.8
   rename: ^3.0.2

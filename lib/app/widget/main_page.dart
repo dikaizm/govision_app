@@ -41,7 +41,7 @@ class MainPatientPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const MainPage(role: Role.patient);
+    return MainPage(role: Role.patient.value);
   }
 }
 
@@ -50,14 +50,14 @@ class MainDoctorPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const MainPage(role: Role.doctor);
+    return MainPage(role: Role.doctor.value);
   }
 }
 
 class MainPage extends ConsumerStatefulWidget {
   const MainPage({required this.role, super.key});
 
-  final Role role;
+  final String role;
 
   @override
   ConsumerState<MainPage> createState() => _MainPageState();
@@ -88,7 +88,7 @@ class _MainPageState extends ConsumerState<MainPage> {
     // Initialize or reinitialize the controller and index
     state.initializeController(state.index);
 
-    if (widget.role == Role.patient) {
+    if (widget.role == Role.patient.value) {
       menuPages = appNotifier.loadMenuPatient();
     } else {
       menuPages = appNotifier.loadMenuDoctor();
@@ -100,7 +100,7 @@ class _MainPageState extends ConsumerState<MainPage> {
     final state = ref.watch(bottomNavNotifier);
     final appNotifier = ref.read(appStartNotifierProvider.notifier);
 
-    if (widget.role == Role.patient) {
+    if (widget.role == Role.patient.value) {
       menuPages = appNotifier.loadMenuPatient();
     } else {
       menuPages = appNotifier.loadMenuDoctor();

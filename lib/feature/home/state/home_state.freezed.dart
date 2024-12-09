@@ -1120,3 +1120,638 @@ class _$HeroEmptyImpl implements _HeroEmpty {
 abstract class _HeroEmpty implements HeroState {
   const factory _HeroEmpty() = _$HeroEmptyImpl;
 }
+
+/// @nodoc
+mixin _$HeroArticleState {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(List<Article2> data) loaded,
+    required TResult Function(AppException message) error,
+    required TResult Function() empty,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loading,
+    TResult? Function(List<Article2> data)? loaded,
+    TResult? Function(AppException message)? error,
+    TResult? Function()? empty,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(List<Article2> data)? loaded,
+    TResult Function(AppException message)? error,
+    TResult Function()? empty,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_HeroArticleLoading value) loading,
+    required TResult Function(_HeroArticleLoaded value) loaded,
+    required TResult Function(_HeroArticleError value) error,
+    required TResult Function(_HeroArticleEmpty value) empty,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_HeroArticleLoading value)? loading,
+    TResult? Function(_HeroArticleLoaded value)? loaded,
+    TResult? Function(_HeroArticleError value)? error,
+    TResult? Function(_HeroArticleEmpty value)? empty,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_HeroArticleLoading value)? loading,
+    TResult Function(_HeroArticleLoaded value)? loaded,
+    TResult Function(_HeroArticleError value)? error,
+    TResult Function(_HeroArticleEmpty value)? empty,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $HeroArticleStateCopyWith<$Res> {
+  factory $HeroArticleStateCopyWith(
+          HeroArticleState value, $Res Function(HeroArticleState) then) =
+      _$HeroArticleStateCopyWithImpl<$Res, HeroArticleState>;
+}
+
+/// @nodoc
+class _$HeroArticleStateCopyWithImpl<$Res, $Val extends HeroArticleState>
+    implements $HeroArticleStateCopyWith<$Res> {
+  _$HeroArticleStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of HeroArticleState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$HeroArticleLoadingImplCopyWith<$Res> {
+  factory _$$HeroArticleLoadingImplCopyWith(_$HeroArticleLoadingImpl value,
+          $Res Function(_$HeroArticleLoadingImpl) then) =
+      __$$HeroArticleLoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$HeroArticleLoadingImplCopyWithImpl<$Res>
+    extends _$HeroArticleStateCopyWithImpl<$Res, _$HeroArticleLoadingImpl>
+    implements _$$HeroArticleLoadingImplCopyWith<$Res> {
+  __$$HeroArticleLoadingImplCopyWithImpl(_$HeroArticleLoadingImpl _value,
+      $Res Function(_$HeroArticleLoadingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HeroArticleState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$HeroArticleLoadingImpl implements _HeroArticleLoading {
+  const _$HeroArticleLoadingImpl();
+
+  @override
+  String toString() {
+    return 'HeroArticleState.loading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$HeroArticleLoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(List<Article2> data) loaded,
+    required TResult Function(AppException message) error,
+    required TResult Function() empty,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loading,
+    TResult? Function(List<Article2> data)? loaded,
+    TResult? Function(AppException message)? error,
+    TResult? Function()? empty,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(List<Article2> data)? loaded,
+    TResult Function(AppException message)? error,
+    TResult Function()? empty,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_HeroArticleLoading value) loading,
+    required TResult Function(_HeroArticleLoaded value) loaded,
+    required TResult Function(_HeroArticleError value) error,
+    required TResult Function(_HeroArticleEmpty value) empty,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_HeroArticleLoading value)? loading,
+    TResult? Function(_HeroArticleLoaded value)? loaded,
+    TResult? Function(_HeroArticleError value)? error,
+    TResult? Function(_HeroArticleEmpty value)? empty,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_HeroArticleLoading value)? loading,
+    TResult Function(_HeroArticleLoaded value)? loaded,
+    TResult Function(_HeroArticleError value)? error,
+    TResult Function(_HeroArticleEmpty value)? empty,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _HeroArticleLoading implements HeroArticleState {
+  const factory _HeroArticleLoading() = _$HeroArticleLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$HeroArticleLoadedImplCopyWith<$Res> {
+  factory _$$HeroArticleLoadedImplCopyWith(_$HeroArticleLoadedImpl value,
+          $Res Function(_$HeroArticleLoadedImpl) then) =
+      __$$HeroArticleLoadedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<Article2> data});
+}
+
+/// @nodoc
+class __$$HeroArticleLoadedImplCopyWithImpl<$Res>
+    extends _$HeroArticleStateCopyWithImpl<$Res, _$HeroArticleLoadedImpl>
+    implements _$$HeroArticleLoadedImplCopyWith<$Res> {
+  __$$HeroArticleLoadedImplCopyWithImpl(_$HeroArticleLoadedImpl _value,
+      $Res Function(_$HeroArticleLoadedImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HeroArticleState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+  }) {
+    return _then(_$HeroArticleLoadedImpl(
+      null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Article2>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$HeroArticleLoadedImpl implements _HeroArticleLoaded {
+  const _$HeroArticleLoadedImpl(final List<Article2> data) : _data = data;
+
+  final List<Article2> _data;
+  @override
+  List<Article2> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  @override
+  String toString() {
+    return 'HeroArticleState.loaded(data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HeroArticleLoadedImpl &&
+            const DeepCollectionEquality().equals(other._data, _data));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
+
+  /// Create a copy of HeroArticleState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$HeroArticleLoadedImplCopyWith<_$HeroArticleLoadedImpl> get copyWith =>
+      __$$HeroArticleLoadedImplCopyWithImpl<_$HeroArticleLoadedImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(List<Article2> data) loaded,
+    required TResult Function(AppException message) error,
+    required TResult Function() empty,
+  }) {
+    return loaded(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loading,
+    TResult? Function(List<Article2> data)? loaded,
+    TResult? Function(AppException message)? error,
+    TResult? Function()? empty,
+  }) {
+    return loaded?.call(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(List<Article2> data)? loaded,
+    TResult Function(AppException message)? error,
+    TResult Function()? empty,
+    required TResult orElse(),
+  }) {
+    if (loaded != null) {
+      return loaded(data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_HeroArticleLoading value) loading,
+    required TResult Function(_HeroArticleLoaded value) loaded,
+    required TResult Function(_HeroArticleError value) error,
+    required TResult Function(_HeroArticleEmpty value) empty,
+  }) {
+    return loaded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_HeroArticleLoading value)? loading,
+    TResult? Function(_HeroArticleLoaded value)? loaded,
+    TResult? Function(_HeroArticleError value)? error,
+    TResult? Function(_HeroArticleEmpty value)? empty,
+  }) {
+    return loaded?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_HeroArticleLoading value)? loading,
+    TResult Function(_HeroArticleLoaded value)? loaded,
+    TResult Function(_HeroArticleError value)? error,
+    TResult Function(_HeroArticleEmpty value)? empty,
+    required TResult orElse(),
+  }) {
+    if (loaded != null) {
+      return loaded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _HeroArticleLoaded implements HeroArticleState {
+  const factory _HeroArticleLoaded(final List<Article2> data) =
+      _$HeroArticleLoadedImpl;
+
+  List<Article2> get data;
+
+  /// Create a copy of HeroArticleState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$HeroArticleLoadedImplCopyWith<_$HeroArticleLoadedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$HeroArticleErrorImplCopyWith<$Res> {
+  factory _$$HeroArticleErrorImplCopyWith(_$HeroArticleErrorImpl value,
+          $Res Function(_$HeroArticleErrorImpl) then) =
+      __$$HeroArticleErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({AppException message});
+
+  $AppExceptionCopyWith<$Res> get message;
+}
+
+/// @nodoc
+class __$$HeroArticleErrorImplCopyWithImpl<$Res>
+    extends _$HeroArticleStateCopyWithImpl<$Res, _$HeroArticleErrorImpl>
+    implements _$$HeroArticleErrorImplCopyWith<$Res> {
+  __$$HeroArticleErrorImplCopyWithImpl(_$HeroArticleErrorImpl _value,
+      $Res Function(_$HeroArticleErrorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HeroArticleState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$HeroArticleErrorImpl(
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as AppException,
+    ));
+  }
+
+  /// Create a copy of HeroArticleState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AppExceptionCopyWith<$Res> get message {
+    return $AppExceptionCopyWith<$Res>(_value.message, (value) {
+      return _then(_value.copyWith(message: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$HeroArticleErrorImpl implements _HeroArticleError {
+  const _$HeroArticleErrorImpl(this.message);
+
+  @override
+  final AppException message;
+
+  @override
+  String toString() {
+    return 'HeroArticleState.error(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HeroArticleErrorImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of HeroArticleState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$HeroArticleErrorImplCopyWith<_$HeroArticleErrorImpl> get copyWith =>
+      __$$HeroArticleErrorImplCopyWithImpl<_$HeroArticleErrorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(List<Article2> data) loaded,
+    required TResult Function(AppException message) error,
+    required TResult Function() empty,
+  }) {
+    return error(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loading,
+    TResult? Function(List<Article2> data)? loaded,
+    TResult? Function(AppException message)? error,
+    TResult? Function()? empty,
+  }) {
+    return error?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(List<Article2> data)? loaded,
+    TResult Function(AppException message)? error,
+    TResult Function()? empty,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_HeroArticleLoading value) loading,
+    required TResult Function(_HeroArticleLoaded value) loaded,
+    required TResult Function(_HeroArticleError value) error,
+    required TResult Function(_HeroArticleEmpty value) empty,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_HeroArticleLoading value)? loading,
+    TResult? Function(_HeroArticleLoaded value)? loaded,
+    TResult? Function(_HeroArticleError value)? error,
+    TResult? Function(_HeroArticleEmpty value)? empty,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_HeroArticleLoading value)? loading,
+    TResult Function(_HeroArticleLoaded value)? loaded,
+    TResult Function(_HeroArticleError value)? error,
+    TResult Function(_HeroArticleEmpty value)? empty,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _HeroArticleError implements HeroArticleState {
+  const factory _HeroArticleError(final AppException message) =
+      _$HeroArticleErrorImpl;
+
+  AppException get message;
+
+  /// Create a copy of HeroArticleState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$HeroArticleErrorImplCopyWith<_$HeroArticleErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$HeroArticleEmptyImplCopyWith<$Res> {
+  factory _$$HeroArticleEmptyImplCopyWith(_$HeroArticleEmptyImpl value,
+          $Res Function(_$HeroArticleEmptyImpl) then) =
+      __$$HeroArticleEmptyImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$HeroArticleEmptyImplCopyWithImpl<$Res>
+    extends _$HeroArticleStateCopyWithImpl<$Res, _$HeroArticleEmptyImpl>
+    implements _$$HeroArticleEmptyImplCopyWith<$Res> {
+  __$$HeroArticleEmptyImplCopyWithImpl(_$HeroArticleEmptyImpl _value,
+      $Res Function(_$HeroArticleEmptyImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HeroArticleState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$HeroArticleEmptyImpl implements _HeroArticleEmpty {
+  const _$HeroArticleEmptyImpl();
+
+  @override
+  String toString() {
+    return 'HeroArticleState.empty()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$HeroArticleEmptyImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(List<Article2> data) loaded,
+    required TResult Function(AppException message) error,
+    required TResult Function() empty,
+  }) {
+    return empty();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loading,
+    TResult? Function(List<Article2> data)? loaded,
+    TResult? Function(AppException message)? error,
+    TResult? Function()? empty,
+  }) {
+    return empty?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(List<Article2> data)? loaded,
+    TResult Function(AppException message)? error,
+    TResult Function()? empty,
+    required TResult orElse(),
+  }) {
+    if (empty != null) {
+      return empty();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_HeroArticleLoading value) loading,
+    required TResult Function(_HeroArticleLoaded value) loaded,
+    required TResult Function(_HeroArticleError value) error,
+    required TResult Function(_HeroArticleEmpty value) empty,
+  }) {
+    return empty(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_HeroArticleLoading value)? loading,
+    TResult? Function(_HeroArticleLoaded value)? loaded,
+    TResult? Function(_HeroArticleError value)? error,
+    TResult? Function(_HeroArticleEmpty value)? empty,
+  }) {
+    return empty?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_HeroArticleLoading value)? loading,
+    TResult Function(_HeroArticleLoaded value)? loaded,
+    TResult Function(_HeroArticleError value)? error,
+    TResult Function(_HeroArticleEmpty value)? empty,
+    required TResult orElse(),
+  }) {
+    if (empty != null) {
+      return empty(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _HeroArticleEmpty implements HeroArticleState {
+  const factory _HeroArticleEmpty() = _$HeroArticleEmptyImpl;
+}

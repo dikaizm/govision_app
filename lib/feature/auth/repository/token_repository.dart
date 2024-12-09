@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:govision/feature/auth/model/token.dart';
-import 'package:govision/shared/constants/role.dart';
 import 'package:govision/shared/constants/store_key.dart';
 import 'package:govision/shared/util/platform_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,8 +13,6 @@ abstract class TokenRepositoryProtocol {
   Future<void> saveToken(Token token);
 
   Future<Token?> fetchToken();
-
-  Future<Role?> fetchUserRole(String token);
 }
 
 final tokenRepositoryProvider = Provider(TokenRepository.new);
@@ -60,7 +57,9 @@ class TokenRepository implements TokenRepositoryProtocol {
       try {
         await storage.write(
             key: StoreKey.token.toString(), value: tokenToJson(token));
-      } on Exception catch (e) {}
+      } on Exception catch (e) {
+        log(e.toString());
+      }
     } else {
       await prefs.setString(StoreKey.token.toString(), tokenToJson(token));
     }
@@ -68,10 +67,6 @@ class TokenRepository implements TokenRepositoryProtocol {
 
   @override
   Future<Token?> fetchToken() async {
-    // if (_token != null) {
-    //   return _token;
-    // }
-
     String? tokenValue;
 
     if (_platform == PlatformType.iOS ||
@@ -88,14 +83,10 @@ class TokenRepository implements TokenRepositoryProtocol {
         _token = tokenFromJson(tokenValue);
       }
     } on Exception catch (e) {
-      return _token;
+      log(e.toString());
+      return null;
     }
 
     return _token;
-  }
-
-  Future<Role> fetchUserRole(String token) async {
-    // Write code to fetch user role from token
-    return Role.patient;
   }
 }

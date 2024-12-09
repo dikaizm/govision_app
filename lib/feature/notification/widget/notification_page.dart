@@ -21,7 +21,7 @@ class NotificationPage extends StatelessWidget {
         child: Text(
           'Belum ada notifikasi',
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.grey,
             fontSize: 16,
           ),
           textAlign: TextAlign.center,

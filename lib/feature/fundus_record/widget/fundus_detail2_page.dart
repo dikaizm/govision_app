@@ -1,12 +1,8 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:govision/feature/fundus_record/provider/fundus_provider.dart';
 import 'package:govision/shared/widget/image_loader.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:govision/shared/constants/app_theme.dart';
 import 'package:govision/shared/util/global.dart';
@@ -62,10 +58,10 @@ class FundusDetail2PageState extends ConsumerState<FundusDetail2Page> {
             );
           },
           loaded: (data) {
-            final formattedDate = DateFormat('EEEE, d MMMM y', 'id')
-                .format(DateTime.parse(data.createdAt));
-            final formattedTime = DateFormat('HH:mm', 'id')
-                .format(DateTime.parse(data.createdAt));
+            final formattedDate =
+                DateFormat('EEEE, d MMMM y', 'id').format(data.createdAt);
+            final formattedTime =
+                DateFormat('HH:mm', 'id').format(data.createdAt);
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -256,9 +252,8 @@ class FundusDetail2PageState extends ConsumerState<FundusDetail2Page> {
                                                     Text(
                                                         DateFormat('dd/MM/yyyy',
                                                                 "id")
-                                                            .format(DateTime
-                                                                .parse(fb
-                                                                    .updatedAt)),
+                                                            .format(
+                                                                fb.createdAt),
                                                         style: const TextStyle(
                                                           fontSize: 14,
                                                           color: Colors.black45,

@@ -36,8 +36,6 @@ mixin _$Register {
   String? get gender => throw _privateConstructorUsedError;
   @JsonKey(name: 'role')
   String? get role => throw _privateConstructorUsedError;
-  @JsonKey(name: 'role_id')
-  int? get roleId => throw _privateConstructorUsedError;
   @JsonKey(name: 'city')
   String? get city => throw _privateConstructorUsedError;
   @JsonKey(name: 'province')
@@ -69,7 +67,6 @@ abstract class $RegisterCopyWith<$Res> {
       @JsonKey(name: 'birth_date') String? birthDate,
       @JsonKey(name: 'gender') String? gender,
       @JsonKey(name: 'role') String? role,
-      @JsonKey(name: 'role_id') int? roleId,
       @JsonKey(name: 'city') String? city,
       @JsonKey(name: 'province') String? province,
       @JsonKey(name: 'address_detail') String? addressDetail});
@@ -98,7 +95,6 @@ class _$RegisterCopyWithImpl<$Res, $Val extends Register>
     Object? birthDate = freezed,
     Object? gender = freezed,
     Object? role = freezed,
-    Object? roleId = freezed,
     Object? city = freezed,
     Object? province = freezed,
     Object? addressDetail = freezed,
@@ -136,10 +132,6 @@ class _$RegisterCopyWithImpl<$Res, $Val extends Register>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as String?,
-      roleId: freezed == roleId
-          ? _value.roleId
-          : roleId // ignore: cast_nullable_to_non_nullable
-              as int?,
       city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
@@ -173,7 +165,6 @@ abstract class _$$RegisterImplCopyWith<$Res>
       @JsonKey(name: 'birth_date') String? birthDate,
       @JsonKey(name: 'gender') String? gender,
       @JsonKey(name: 'role') String? role,
-      @JsonKey(name: 'role_id') int? roleId,
       @JsonKey(name: 'city') String? city,
       @JsonKey(name: 'province') String? province,
       @JsonKey(name: 'address_detail') String? addressDetail});
@@ -200,7 +191,6 @@ class __$$RegisterImplCopyWithImpl<$Res>
     Object? birthDate = freezed,
     Object? gender = freezed,
     Object? role = freezed,
-    Object? roleId = freezed,
     Object? city = freezed,
     Object? province = freezed,
     Object? addressDetail = freezed,
@@ -238,10 +228,6 @@ class __$$RegisterImplCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as String?,
-      roleId: freezed == roleId
-          ? _value.roleId
-          : roleId // ignore: cast_nullable_to_non_nullable
-              as int?,
       city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
@@ -270,7 +256,6 @@ class _$RegisterImpl implements _Register {
       @JsonKey(name: 'birth_date') this.birthDate,
       @JsonKey(name: 'gender') this.gender,
       @JsonKey(name: 'role') this.role,
-      @JsonKey(name: 'role_id') this.roleId,
       @JsonKey(name: 'city') this.city,
       @JsonKey(name: 'province') this.province,
       @JsonKey(name: 'address_detail') this.addressDetail});
@@ -303,9 +288,6 @@ class _$RegisterImpl implements _Register {
   @JsonKey(name: 'role')
   final String? role;
   @override
-  @JsonKey(name: 'role_id')
-  final int? roleId;
-  @override
   @JsonKey(name: 'city')
   final String? city;
   @override
@@ -317,7 +299,7 @@ class _$RegisterImpl implements _Register {
 
   @override
   String toString() {
-    return 'Register(name: $name, email: $email, password: $password, confirmPassword: $confirmPassword, phone: $phone, birthDate: $birthDate, gender: $gender, role: $role, roleId: $roleId, city: $city, province: $province, addressDetail: $addressDetail)';
+    return 'Register(name: $name, email: $email, password: $password, confirmPassword: $confirmPassword, phone: $phone, birthDate: $birthDate, gender: $gender, role: $role, city: $city, province: $province, addressDetail: $addressDetail)';
   }
 
   @override
@@ -336,7 +318,6 @@ class _$RegisterImpl implements _Register {
                 other.birthDate == birthDate) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.role, role) || other.role == role) &&
-            (identical(other.roleId, roleId) || other.roleId == roleId) &&
             (identical(other.city, city) || other.city == city) &&
             (identical(other.province, province) ||
                 other.province == province) &&
@@ -356,7 +337,6 @@ class _$RegisterImpl implements _Register {
       birthDate,
       gender,
       role,
-      roleId,
       city,
       province,
       addressDetail);
@@ -387,7 +367,6 @@ abstract class _Register implements Register {
           @JsonKey(name: 'birth_date') final String? birthDate,
           @JsonKey(name: 'gender') final String? gender,
           @JsonKey(name: 'role') final String? role,
-          @JsonKey(name: 'role_id') final int? roleId,
           @JsonKey(name: 'city') final String? city,
           @JsonKey(name: 'province') final String? province,
           @JsonKey(name: 'address_detail') final String? addressDetail}) =
@@ -420,9 +399,6 @@ abstract class _Register implements Register {
   @override
   @JsonKey(name: 'role')
   String? get role;
-  @override
-  @JsonKey(name: 'role_id')
-  int? get roleId;
   @override
   @JsonKey(name: 'city')
   String? get city;

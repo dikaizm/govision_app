@@ -17,22 +17,35 @@ class TextInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        color: Colors.white, // Background color for input container
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.grey.shade400, width: 2),
+        border: Border.all(color: Colors.grey.shade400, width: 1),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: TextFormField(
           controller: controller,
           obscureText: obscureText,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            labelText: labelText,
-            labelStyle: TextStyle(color: Colors.grey.shade600),
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey.shade600),
-            contentPadding: const EdgeInsets.symmetric(vertical: 2),
+          style: TextStyle(
+            color: Colors.black87, // Text color
+            fontSize: 16, // Font size
           ),
+          decoration: InputDecoration(
+            border: InputBorder.none, // Removes default border
+            labelText: labelText,
+            labelStyle: TextStyle(
+              color: Colors.grey.shade600,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            hintText: hintText,
+            hintStyle: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 14,
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 10),
+          ),
+          cursorColor: Colors.blueAccent, // Custom cursor color
         ),
       ),
     );

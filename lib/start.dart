@@ -20,6 +20,7 @@ Future<void> start() async {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
+  // Initialize date formatting
   await initializeDateFormatting();
 
   final dbLoader = DatabaseLoader();

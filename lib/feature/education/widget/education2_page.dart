@@ -31,7 +31,7 @@ class Education2PageState extends ConsumerState<Education2Page> {
     final articleState = ref.watch(article2NotifierProvider);
 
     Future<void> _onRefresh() async {
-      ref.read(article2NotifierProvider.notifier).fetchArticles();
+      ref.read(article2NotifierProvider.notifier).fetchArticles(100);
     }
 
     return Scaffold(
@@ -81,16 +81,26 @@ class Education2PageState extends ConsumerState<Education2Page> {
                 ),
                 const SizedBox(height: 12),
                 articleState.when(
-                  empty: () => const Center(
-                    child: Text('Tidak ada artikel'),
+                  empty: () => SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: const Center(
+                      child: Text('Tidak ada artikel',
+                          style: TextStyle(color: Colors.grey)),
+                    ),
                   ),
-                  loading: () => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  error: (error) => Center(
-                    child: Text(
-                      error.toString(),
-                      style: const TextStyle(color: Colors.red),
+                  loading: () {
+                    ref
+                        .read(article2NotifierProvider.notifier)
+                        .fetchArticles(100);
+                    return _widgetLoading(context, ref);
+                  },
+                  error: (error) => SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: Center(
+                      child: Text(
+                        error.toString(),
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     ),
                   ),
                   loaded: (articles) {
@@ -115,6 +125,17 @@ class Education2PageState extends ConsumerState<Education2Page> {
                 ),
               ],
             )),
+      ),
+    );
+  }
+
+  Widget _widgetLoading(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.8,
+      child: const Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(AppColors.green),
+        ),
       ),
     );
   }

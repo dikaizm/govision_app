@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:govision/feature/auth/model/register.dart';
 import 'package:govision/feature/auth/model/token.dart';
+import 'package:govision/feature/auth/model/user.dart';
 import 'package:govision/feature/auth/repository/token_repository.dart';
+import 'package:govision/feature/auth/repository/user_repository.dart';
 import 'package:govision/feature/auth/state/auth_state.dart';
-import 'package:govision/feature/auth/widget/sign_in_page.dart';
+import 'package:govision/feature/auth/state/user_state.dart';
 import 'package:govision/feature/auth/widget/text_input.dart';
 import 'package:govision/shared/constants/app_theme.dart';
 import 'package:govision/shared/constants/role.dart';
@@ -158,7 +160,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       // form
                       DatePicker(
                         controller: birthDateController,
-                        labeltext: 'Tanggal Lahir',
+                        labelText: 'Tanggal Lahir',
                         hintText: 'Masukan tanggal lahir',
                         obscureText: false,
                       ),
@@ -243,9 +245,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 padding: const EdgeInsets.all(15),
                                 decoration: BoxDecoration(
                                   color: _isRole1Selected
-                                      ? Colors.blue
-                                      : Colors.blueGrey.shade100,
-                                  borderRadius: BorderRadius.circular(10),
+                                      ? AppColors.green
+                                      : AppColors.green10,
+                                  borderRadius: BorderRadius.circular(24),
                                   boxShadow: _isRole1Selected
                                       ? [
                                           BoxShadow(
@@ -257,16 +259,24 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                         ]
                                       : [],
                                 ),
-                                child: Column(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
+                                    Icon(
+                                      Icons.medical_services,
+                                      color: _isRole1Selected
+                                          ? Colors.white
+                                          : Colors.black54,
+                                    ),
+                                    const SizedBox(width: 8),
                                     Text(
                                       'Dokter',
                                       style: TextStyle(
                                         color: _isRole1Selected
                                             ? Colors.white
-                                            : Colors.black,
+                                            : Colors.black54,
                                         fontSize: 16,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ],
@@ -292,8 +302,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 decoration: BoxDecoration(
                                   color: _isRole2Selected
                                       ? AppColors.green
-                                      : Colors.blueGrey.shade100,
-                                  borderRadius: BorderRadius.circular(10),
+                                      : AppColors.green10,
+                                  borderRadius: BorderRadius.circular(24),
                                   boxShadow: _isRole2Selected
                                       ? [
                                           BoxShadow(
@@ -305,16 +315,24 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                         ]
                                       : [],
                                 ),
-                                child: Column(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
+                                    Icon(
+                                      Icons.person,
+                                      color: _isRole2Selected
+                                          ? Colors.white
+                                          : Colors.black54,
+                                    ),
+                                    const SizedBox(width: 8),
                                     Text(
                                       'Pasien',
                                       style: TextStyle(
                                         color: _isRole2Selected
                                             ? Colors.white
-                                            : Colors.black,
+                                            : Colors.black54,
                                         fontSize: 16,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ],
@@ -328,7 +346,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       const SizedBox(height: 32),
 
                       // button
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         height: 48,
                         child: ElevatedButton(
@@ -342,11 +360,47 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           onPressed: () async {
                             final String email = emailController.text;
                             if (!Validator.isValidEmail(email)) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Email tidak valid'),
-                                ),
-                              );
+                              showTopSnackBar(context, 'Email tidak valid',
+                                  Colors.red[700]);
+                              return;
+                            }
+
+                            if (!Validator.isValidPhoneNumber(
+                                phoneController.text)) {
+                              showTopSnackBar(context,
+                                  'Nomor telepon tidak valid', Colors.red[700]);
+                              return;
+                            }
+
+                            if (!Validator.isValidPassword(
+                                passwordController.text)) {
+                              showTopSnackBar(
+                                  context,
+                                  'Minimal 8 karakter, setidaknya satu huruf kecil dan satu angka',
+                                  Colors.red[700]);
+                              return;
+                            }
+
+                            if (!Validator.isMatchPassword(
+                                passwordController.text,
+                                confirmPasswordController.text)) {
+                              showTopSnackBar(context, 'Kata sandi tidak cocok',
+                                  Colors.red[700]);
+                              return;
+                            }
+
+                            if (nameController.text.isEmpty ||
+                                emailController.text.isEmpty ||
+                                passwordController.text.isEmpty ||
+                                confirmPasswordController.text.isEmpty ||
+                                phoneController.text.isEmpty ||
+                                birthDateController.text.isEmpty ||
+                                genderController.text.isEmpty ||
+                                cityController.text.isEmpty ||
+                                provinceController.text.isEmpty ||
+                                addressController.text.isEmpty) {
+                              showTopSnackBar(context,
+                                  'Semua kolom harus diisi', Colors.red[700]);
                               return;
                             }
 
@@ -365,7 +419,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 province: provinceController.text,
                                 addressDetail: addressController.text,
                                 role: _isRole1Selected ? 'doctor' : 'patient',
-                                roleId: _isRole1Selected ? 1 : 2,
                               );
 
                               final registerResponse = await ref
@@ -373,31 +426,35 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   .post(
                                       '/auth/register', registerData.toJson());
 
-                              registerResponse.when(success: (success) async {
+                              registerResponse.when(success: (response) async {
                                 final String accessToken =
-                                    success["access_token"] as String;
+                                    response["access_token"] as String;
 
                                 final tokenRepository =
                                     ref.read(tokenRepositoryProvider);
                                 final token = Token(token: accessToken);
-
                                 await tokenRepository.saveToken(token);
 
-                                final userRole =
-                                    stringToRole(success["role"] as String);
+                                final _user = User.fromJson(
+                                    response as Map<String, dynamic>);
+                                AuthState.loggedIn(_user);
 
-                                AuthState.loggedIn(role: userRole);
+                                final userRepository =
+                                    ref.read(userRepositoryProvider);
+                                await userRepository.saveUser(_user);
 
-                                showTopSnackBar(
-                                    context,
-                                    "Selamat datang ${success["name"]}",
-                                    AppColors.green);
+                                UserState.loggedIn(_user);
 
-                                if (userRole == Role.patient) {
+                                if (_user.role == Role.patient.value) {
+                                  showTopSnackBar(
+                                      context,
+                                      "Selamat datang ${response["name"]}, silahkan lengkapi profil pasien Anda",
+                                      AppColors.green);
+
                                   ref
                                       .read(routerProvider)
                                       .go(CreatePatientProfileRoute.path);
-                                } else if (userRole == Role.doctor) {
+                                } else if (_user.role == Role.doctor.value) {
                                   ref
                                       .read(routerProvider)
                                       .go(MainDoctorRoute.path);
@@ -519,14 +576,14 @@ class _RadioGenderState extends State<RadioGender> {
 
 class DatePicker extends StatelessWidget {
   final TextEditingController controller;
-  final String labeltext;
+  final String labelText;
   final String hintText;
   final bool obscureText;
 
   const DatePicker(
       {super.key,
       required this.controller,
-      required this.labeltext,
+      required this.labelText,
       required this.hintText,
       required this.obscureText});
 
@@ -534,8 +591,8 @@ class DatePicker extends StatelessWidget {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100));
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now());
     if (picked != null) {
       controller.text = picked.toString().split(' ')[0];
     }
@@ -547,17 +604,24 @@ class DatePicker extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: Colors.grey.shade400, width: 2),
+          border: Border.all(color: Colors.grey.shade400, width: 1),
         ),
         child: TextFormField(
           controller: controller,
           obscureText: obscureText,
           decoration: InputDecoration(
-            border: InputBorder.none,
-            labelText: labeltext,
-            labelStyle: TextStyle(color: Colors.grey.shade600),
+            border: InputBorder.none, // Removes default border
+            labelText: labelText,
+            labelStyle: TextStyle(
+              color: Colors.grey.shade600,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
             hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey.shade600),
+            hintStyle: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 14,
+            ),
             suffixIcon: const Icon(Icons.calendar_today),
           ),
           readOnly: true,

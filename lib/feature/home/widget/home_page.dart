@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:govision/app/widget/main_page.dart';
+import 'package:govision/feature/auth/provider/user_provider.dart';
 import 'package:govision/feature/education/provider/article2_provider.dart';
+import 'package:govision/feature/education/widget/article_detail2_page.dart';
 import 'package:govision/feature/fundus_record/widget/fundus_detail2_page.dart';
 import 'package:govision/feature/home/provider/appointment_provider.dart';
 import 'package:govision/feature/home/provider/hero_provider.dart';
@@ -12,11 +15,24 @@ import 'package:govision/shared/widget/app_bar.dart';
 import 'package:govision/shared/widget/card_feature.dart';
 import 'package:govision/shared/widget/image_loader.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  String? _baseUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _baseUrl = dotenv.env['BASE_URL'];
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: const MainAppBar(),
@@ -40,8 +56,9 @@ class HomePage extends ConsumerWidget {
 
     Future<void> _onRefresh() async {
       ref.read(appointmentNotifierProvider.notifier).fetchAppointments();
-      ref.read(article2NotifierProvider.notifier).fetchArticles();
+      ref.read(article2NotifierProvider.notifier).fetchArticles(100);
       ref.read(heroNotifierProvider.notifier).fetchHero();
+      ref.read(userNotifierProvider.notifier).fetchUserFromApi();
     }
 
     return RefreshIndicator(
@@ -52,7 +69,7 @@ class HomePage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             // Kondisi fundus kamu
             heroState.when(
               loading: () => Container(
@@ -119,7 +136,8 @@ class HomePage extends ConsumerWidget {
                             child: Row(
                               children: [
                                 ImageProfileLoader(
-                                    imageUrl: data.imageUrl,
+                                    imageUrl:
+                                        '${_baseUrl!}/fundus/image/${data.imageUrl}',
                                     size: 40,
                                     shape: BoxShape.circle),
                                 const SizedBox(
@@ -311,16 +329,23 @@ class HomePage extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          const Padding(
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Konsultasi Minggu Ini',
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                 ),
-                Text('Lihat Semua', style: TextStyle(color: AppColors.green)),
+                InkWell(
+                    highlightColor: Colors.transparent,
+                    onTap: () {
+                      final bottomNavState = ref.read(bottomNavNotifier);
+                      bottomNavState.changeIndex(3);
+                    },
+                    child: const Text('Lihat Semua',
+                        style: TextStyle(color: AppColors.green))),
               ],
             ),
           ),
@@ -514,80 +539,101 @@ class HomePage extends ConsumerWidget {
                   child: Text(e.toString()),
                 );
               },
-              loading: () => _widgetLoading(context, ref),
+              loading: () {
+                ref.read(article2NotifierProvider.notifier).fetchArticles(100);
+                return _widgetLoading(context, ref);
+              },
               loaded: (data) => Container(
                     alignment: Alignment.center,
                     height: 172,
                     width: double.infinity,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: data.length,
+                        itemCount: data.length > 4 ? 4 : data.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                            width: 200,
-                            margin: EdgeInsets.only(
-                                right: index == data.length - 1 ? 0 : 16),
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.blueGrey.withOpacity(0.08),
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 100,
-                                  width: double.infinity,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.lime,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Image.network(
-                                    data[index].image,
-                                    height: double.infinity,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                    loadingBuilder: (BuildContext context,
-                                        Widget child,
-                                        ImageChunkEvent? loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        return child; // Show the image once loaded
-                                      } else {
-                                        return Center(
-                                          child: CircularProgressIndicator(
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    (loadingProgress
-                                                            .expectedTotalBytes ??
-                                                        1)
-                                                : null,
-                                          ),
-                                        ); // Show a loading spinner while the image is loading
-                                      }
-                                    },
-                                    errorBuilder: (BuildContext context,
-                                        Object error, StackTrace? stackTrace) {
-                                      return Center(
-                                        child: Icon(Icons.image,
-                                            size: 40,
-                                            color: Colors
-                                                .black54), // Show an error icon if the image fails to load
-                                      );
-                                    },
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(data[index].title,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
-                              ],
+                          return InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ArticleDetail2Page(
+                                      articleId: data[index].id)));
+                            },
+                            child: Container(
+                              width: 200,
+                              margin:
+                                  EdgeInsets.only(right: index == 3 ? 0 : 16),
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey.withOpacity(0.08),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      height: 100,
+                                      width: double.infinity,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.lime,
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: (data[index].image != '')
+                                          ? Image.network(
+                                              data[index].image,
+                                              height: double.infinity,
+                                              width: double.infinity,
+                                              fit: BoxFit.cover,
+                                              loadingBuilder:
+                                                  (BuildContext context,
+                                                      Widget child,
+                                                      ImageChunkEvent?
+                                                          loadingProgress) {
+                                                if (loadingProgress == null) {
+                                                  return child; // Show the image once loaded
+                                                } else {
+                                                  return Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: loadingProgress
+                                                                  .expectedTotalBytes !=
+                                                              null
+                                                          ? loadingProgress
+                                                                  .cumulativeBytesLoaded /
+                                                              (loadingProgress
+                                                                      .expectedTotalBytes ??
+                                                                  1)
+                                                          : null,
+                                                    ),
+                                                  ); // Show a loading spinner while the image is loading
+                                                }
+                                              },
+                                              errorBuilder:
+                                                  (BuildContext context,
+                                                      Object error,
+                                                      StackTrace? stackTrace) {
+                                                return const Center(
+                                                  child: Icon(Icons.image,
+                                                      size: 40,
+                                                      color: Colors
+                                                          .black54), // Show an error icon if the image fails to load
+                                                );
+                                              },
+                                            )
+                                          : Center(
+                                              child: Icon(Icons.image,
+                                                  size: 40,
+                                                  color: Colors
+                                                      .black54), // Show an error icon if the image fails to load
+                                            )),
+                                  const SizedBox(height: 8),
+                                  Text(data[index].title,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500)),
+                                ],
+                              ),
                             ),
                           );
                         }),

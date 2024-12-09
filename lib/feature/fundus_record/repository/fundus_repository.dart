@@ -12,6 +12,8 @@ abstract class FundusHistoryRepositoryProtocol {
 
   Future<FundusDetailState> fetchFundusDetail(int id);
   Future<FundusDetailState> requestVerifyFundus(int id);
+
+  Future<FundusHistoryState> updateVerifyFundus(Fundus fundus);
 }
 
 final fundusHistoryRepositoryProvider = Provider(FundusHistoryRepository.new);
@@ -88,6 +90,23 @@ class FundusHistoryRepository implements FundusHistoryRepositoryProtocol {
     } else {
       return const FundusHistoryState.loading();
     }
+  }
+
+  @override
+  Future<FundusHistoryState> updateVerifyFundus(Fundus fundus) {
+    List<Fundus> updatedFunduses = [];
+
+    final notifier = _ref.read(fundusHistoryNotifierProvider.notifier);
+    notifier.refresh((state) {
+      state.maybeWhen(
+          loaded: (funduses) {
+            updatedFunduses =
+                funduses.map((f) => f.id == fundus.id ? fundus : f).toList();
+          },
+          orElse: () {});
+    });
+
+    return Future.value(FundusHistoryState.loaded(updatedFunduses));
   }
 
   @override
