@@ -32,12 +32,12 @@ class Validator {
   }
 
   static bool isValidPhoneNumber(String? value) {
-    // Regular expression for country code (e.g., + followed by digits)
-    final countryCodeRegex = RegExp(r'^\+\d+');
+    // Regular expression for a phone number starting with '0'
+    final phoneNumberRegex = RegExp(r'^0\d+$');
 
     return value != null &&
         value.isNotEmpty &&
         value.length >= 10 &&
-        countryCodeRegex.hasMatch(value);
+        phoneNumberRegex.hasMatch(value);
   }
 }
